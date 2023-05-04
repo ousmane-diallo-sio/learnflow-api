@@ -2,11 +2,10 @@ import Joi from "joi";
 import mongoose from "mongoose";
 
 export interface Address {
-  city: string;
-  zipCode: string;
-  street: string;
-  number: string;
-  complement: string;
+  city: string
+  zipCode: string
+  street: string
+  complement?: string
 }
 
 
@@ -14,8 +13,7 @@ export const AddressValidationSchema = Joi.object({
   city: Joi.string().min(2).max(20).required(),
   zipCode: Joi.string().min(5).max(5).required(),
   street: Joi.string().min(2).max(50).required(),
-  number: Joi.number().min(1).max(4).required(),
-  complement: Joi.string().min(2).max(50).required(),
+  complement: Joi.string().min(2).max(50).optional(),
 })
 
 
@@ -33,13 +31,8 @@ export const AddressSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  number: {
-    type: Number,
-    required: true,
-  },
   complement: {
-    type: String,
-    required: true,
+    type: String
   },
 })
 

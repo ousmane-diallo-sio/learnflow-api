@@ -1,7 +1,14 @@
 import express from "express";
 import studentController from "./controllers/student";
+import mongoose from 'mongoose';
+import envUtils from "./utils/EnvUtils";
+import { logConfirmation } from "./utils/logUtils";
 
 const app = express()
+
+mongoose.connect(`mongodb://${envUtils.MONGO_USER}:${envUtils.MONGO_PASSWORD}@${envUtils.MONGO_HOST}:${envUtils.MONGO_PORT}/${envUtils.MONGO_DB}`)
+  .then(() => logConfirmation("Connected to MongoDB"))
+  .catch((e) => console.error(e))
 
 app.get('/', (req, res) => {
   res.contentType('application/json')
@@ -10,6 +17,6 @@ app.get('/', (req, res) => {
 
 app.use('/students', studentController)
 
-app.listen(process.env.PORT ?? 3000, () => {
-  console.log("----- Server running -----")
+app.listen(envUtils.PORT, () => {
+  logConfirmation(`Server listening on port ${envUtils.PORT}`)
 })
