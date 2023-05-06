@@ -5,28 +5,24 @@ import mongoose from "mongoose";
 export interface Student {
   firstName: string
   lastName: string
-  birthDate: Date
+  birthday: Date
   email: string
-  address: Address
   phoneNumber: string
   profilePictureUrl: string
+  address: Address
 }
 
 export const StudentValidationSchema = Joi.object({
-  firstName: Joi.string().min(2).max(20).required(),
-  lastName: Joi.string().min(2).max(25).required(),
-  birthDate: Joi.date().required(),
+  firstName: Joi.string().min(1).max(50).required(),
+  lastName: Joi.string().min(1).max(50).required(),
+  birthday: Joi.date().required(),
   email: Joi.string().email().required(),
-  address: AddressValidationSchema.required(),
   phoneNumber: Joi.string().pattern(/^((\+)33|0|0033)[1-9](\d{2}){4}$/).required(),
+  profilePictureUrl: Joi.string().min(1).max(2048).required(),
+  address: AddressValidationSchema.required(),
 })
 
 export const StudentSchema = new mongoose.Schema({
-  email: {
-      type: String,
-      required: true,
-      unique: true,
-  },
   firstName: {
     type: String,
     required: true,
@@ -35,14 +31,15 @@ export const StudentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  birthDate: {
+  birthday: {
     type: Date,
     required: true,
   },
-  address: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Address',
-  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+},
   phoneNumber: {
     type: String,
     required: true,
@@ -50,6 +47,10 @@ export const StudentSchema = new mongoose.Schema({
   profilePictureUrl: {
     type: String,
     required: true,
+  },
+  address: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Address',
   },
 })
 

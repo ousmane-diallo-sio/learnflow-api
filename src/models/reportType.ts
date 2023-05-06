@@ -1,5 +1,4 @@
 import Joi from "joi";
-import { Address, AddressValidationSchema } from "./address";
 import mongoose from "mongoose";
 
 export interface ReportType {

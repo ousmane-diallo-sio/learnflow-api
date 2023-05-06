@@ -1,55 +1,60 @@
 import Joi from "joi";
-import { Address, AddressValidationSchema } from "./address";
 import mongoose from "mongoose";
+import { ReportTypeValidationSchema } from "./reportType";
+import { Student, StudentValidationSchema } from "./student";
+import { Address } from "./address";
+import { Moderator, ModeratorValidationSchema } from "./moderator";
+import { Teacher, TeacherValidationSchema } from "./teacher";
 
 export interface Report {
+  date: Date
   reason: string
-  lastName: string
-  birthDate: Date
-  email: string
-  address: Address
-  phoneNumber: string
-  profilePictureUrl: string
+  detail: string
+  reportType: Address
+  student: Student
+  moderator: Moderator
+  teacher: Teacher
 }
 
 export const ReportValidationSchema = Joi.object({
-  reason: Joi.string().min(2).max(20).required(),
-  lastName: Joi.string().min(2).max(25).required(),
-  birthDate: Joi.date().required(),
-  email: Joi.string().email().required(),
-  address: AddressValidationSchema.required(),
-  phoneNumber: Joi.string().pattern(/^((\+)33|0|0033)[1-9](\d{2}){4}$/).required(),
+  date: Joi.date().required(),
+  reason: Joi.string().min(1).max(128).required(),
+  detail: Joi.string().min(1).max(2048).required(),
+  reportType: ReportTypeValidationSchema.required(),
+  student: StudentValidationSchema.required(),
+  moderator: ModeratorValidationSchema.required(),
+  teacher: TeacherValidationSchema.required(),
 })
 
 export const ReportSchema = new mongoose.Schema({
-  email: {
+  date: {
+    type: Date,
+    required: true,
+  },
+  reason: {
       type: String,
       required: true,
       unique: true,
   },
-  reason: {
+  detail: {
     type: String,
     required: true,
   },
-  lastName: {
-    type: String,
-    required: true,
-  },
-  birthDate: {
-    type: Date,
-    required: true,
-  },
-  address: {
+  reportType: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Address',
+    ref: 'ReportType',
   },
-  phoneNumber: {
-    type: String,
-    required: true,
+  student: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Student',
   },
-  profilePictureUrl: {
-    type: String,
-    required: true,
+  moderator: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Moderator',
+  },
+  teacher: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Teacher',
   },
 })
 
