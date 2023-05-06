@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 export interface Student {
   firstName: string
   lastName: string
-  birthday: Date
+  birthdate: Date
   email: string
   phoneNumber: string
   profilePictureUrl: string
@@ -15,7 +15,7 @@ export interface Student {
 export const StudentValidationSchema = Joi.object({
   firstName: Joi.string().min(1).max(50).required(),
   lastName: Joi.string().min(1).max(50).required(),
-  birthday: Joi.date().required(),
+  birthdate: Joi.date().required(),
   email: Joi.string().email().required(),
   phoneNumber: Joi.string().pattern(/^((\+)33|0|0033)[1-9](\d{2}){4}$/).required(),
   profilePictureUrl: Joi.string().min(1).max(2048).required(),
@@ -31,7 +31,7 @@ export const StudentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  birthday: {
+  birthdate: {
     type: Date,
     required: true,
   },
