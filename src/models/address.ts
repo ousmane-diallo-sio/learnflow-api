@@ -10,13 +10,11 @@ export interface Address {
 
 
 export const AddressValidationSchema = Joi.object({
-  city: Joi.string().min(2).max(20).required(),
-  zipCode: Joi.string().min(5).max(5).required(),
-  street: Joi.string().min(2).max(50).required(),
-  complement: Joi.string().min(2).max(50).optional(),
+  city: Joi.string().min(1).max(100).required(),
+  zipCode: Joi.string().min(5).max(6).required(),
+  street: Joi.string().min(1).max(100).required(),
+  complement: Joi.string().min(1).max(100).optional(),
 })
-
-
 
 export const AddressSchema = new mongoose.Schema({
   city: {
