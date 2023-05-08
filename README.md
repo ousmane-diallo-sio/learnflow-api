@@ -34,13 +34,18 @@ $ cd learnflow-api
 Ensuite, créez un fichier `.env` à la racine du projet et ajoutez-y les informations nécessaires :
 
 ```
+# Mongo service variables
+MONGO_INITDB_ROOT_USERNAME=<MONGO_USER>
+MONGO_INITDB_ROOT_PASSWORD=<MONGO_PASSWORD>
+
+# Express service variables
 HOST=127.0.0.1
 PORT=3000
-MONGO_DB=<MONGO_DATABASE>
-MONGO_USER=<MONGO_USER>
-MONGO_HOST=127.0.0.1
-MONGO_PASSWORD=<MONGO_PASSWORD>
+MONGO_USER=learnflowuser
+MONGO_PASSWORD=learnflowpwd
+MONGO_HOST=mongo
 MONGO_PORT=27017
+MONGO_DB=learnflowdb
 ```
 
 Enfin, construisez et lancez les conteneurs Docker :
