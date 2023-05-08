@@ -1,7 +1,7 @@
 import Joi from "joi";
 import mongoose from "mongoose";
 
-export interface ReportType {
+export interface IReportType extends mongoose.Document {
   name: string
 }
 

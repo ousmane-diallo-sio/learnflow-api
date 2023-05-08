@@ -1,16 +1,16 @@
 import Joi from "joi";
 import mongoose from "mongoose";
-import { Student, StudentValidationSchema } from "./student";
-import { Moderator, ModeratorValidationSchema } from "./moderator";
-import { Teacher } from "./teacher";
+import { IStudent, StudentValidationSchema } from "./student";
+import { IModerator, ModeratorValidationSchema } from "./moderator";
+import { ITeacher } from "./teacher";
 import { TeacherValidationSchema } from "./teacher";
 
-export interface Chat {
+export interface Chat extends mongoose.Document {
   message: string
   datetime: Date
-  student: Student
-  moderator: Moderator
-  teacher: Teacher
+  student: IStudent
+  moderator: IModerator
+  teacher: ITeacher
 }
 
 export const ChatValidationSchema = Joi.object({

@@ -2,7 +2,7 @@ import Joi from "joi";
 import mongoose from "mongoose";
 import { DocumentTypeValidationSchema } from "./documentType";
 
-export interface Document {
+export interface IDocument extends mongoose.Document {
   uploadUrl: string
   documentType: DocumentType
 }

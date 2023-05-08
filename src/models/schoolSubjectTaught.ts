@@ -1,12 +1,12 @@
 import Joi from "joi";
 import mongoose from "mongoose";
-import { SchoolSubject, SchoolSubjectValidationSchema } from "./schoolSubject";
-import { Teacher, TeacherValidationSchema } from "./teacher";
+import { ISchoolSubject, SchoolSubjectValidationSchema } from "./schoolSubject";
+import { ITeacher, TeacherValidationSchema } from "./teacher";
 
-export interface SchoolSubjectTaught {
+export interface ISchoolSubjectTaught extends mongoose.Document {
   yearsOfExperience: Number
-  schoolSubject: SchoolSubject
-  teacher: Teacher
+  schoolSubject: ISchoolSubject
+  teacher: ITeacher
 }
 
 export const SchoolSubjectTaughtValidationSchema = Joi.object({

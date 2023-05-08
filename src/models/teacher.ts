@@ -1,9 +1,9 @@
 import Joi from "joi";
-import { Address, AddressValidationSchema } from "./address";
+import { IAddress, AddressValidationSchema } from "./address";
 import mongoose from "mongoose";
 import { DocumentValidationSchema } from './document';
 
-export interface Teacher {
+export interface ITeacher extends mongoose.Document {
   firstName: string
   lastName: string
   birthdate: Date
@@ -11,7 +11,7 @@ export interface Teacher {
   phoneNumber: string
   profilePictureUrl: string
   isValidated: boolean
-  address: Address
+  address: IAddress
   documents: Array<Document>
 }
 

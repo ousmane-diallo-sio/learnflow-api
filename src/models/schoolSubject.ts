@@ -1,7 +1,7 @@
 import Joi from "joi";
 import mongoose from "mongoose";
 
-export interface SchoolSubject {
+export interface ISchoolSubject extends mongoose.Document {
   name: string
 }
 

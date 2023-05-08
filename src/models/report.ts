@@ -1,19 +1,19 @@
 import Joi from "joi";
 import mongoose from "mongoose";
 import { ReportTypeValidationSchema } from "./reportType";
-import { Student, StudentValidationSchema } from "./student";
-import { Address } from "./address";
-import { Moderator, ModeratorValidationSchema } from "./moderator";
-import { Teacher, TeacherValidationSchema } from "./teacher";
+import { IStudent, StudentValidationSchema } from "./student";
+import { IAddress } from "./address";
+import { IModerator, ModeratorValidationSchema } from "./moderator";
+import { ITeacher, TeacherValidationSchema } from "./teacher";
 
-export interface Report {
+export interface IReport extends mongoose.Document {
   date: Date
   reason: string
   detail: string
-  reportType: Address
-  student: Student
-  moderator: Moderator
-  teacher: Teacher
+  reportType: IAddress
+  student: IStudent
+  moderator: IModerator
+  teacher: ITeacher
 }
 
 export const ReportValidationSchema = Joi.object({

@@ -1,15 +1,15 @@
 import Joi from "joi";
-import { Address, AddressValidationSchema } from "./address";
+import { IAddress, AddressValidationSchema } from "./address";
 import mongoose from "mongoose";
 
-export interface Student {
+export interface IStudent extends mongoose.Document {
   firstName: string
   lastName: string
   birthdate: Date
   email: string
   phoneNumber: string
   profilePictureUrl: string
-  address: Address
+  address: IAddress
 }
 
 export const StudentValidationSchema = Joi.object({

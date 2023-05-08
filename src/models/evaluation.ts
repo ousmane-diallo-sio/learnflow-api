@@ -1,14 +1,14 @@
 import Joi from "joi";
 import mongoose from "mongoose";
-import { Student, StudentValidationSchema } from "./student";
-import { SchoolSubject, SchoolSubjectValidationSchema } from "./schoolSubject";
-import { Teacher, TeacherValidationSchema } from "./teacher";
+import { IStudent, StudentValidationSchema } from "./student";
+import { ISchoolSubject, SchoolSubjectValidationSchema } from "./schoolSubject";
+import { ITeacher, TeacherValidationSchema } from "./teacher";
 
-export interface Evaluation {
+export interface IEvaluation extends mongoose.Document {
   note: Number
-  subject: SchoolSubject
-  student: Student
-  teacher: Teacher
+  subject: ISchoolSubject
+  student: IStudent
+  teacher: ITeacher
 }
 
 export const EvaluationValidationSchema = Joi.object({

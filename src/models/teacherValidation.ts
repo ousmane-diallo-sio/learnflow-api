@@ -1,7 +1,7 @@
 import Joi from "joi";
 import mongoose from "mongoose";
 
-export interface TeacherValidation {
+export interface ITeacherValidation extends mongoose.Document {
   date: Date
   isValidated: boolean
   comment: string

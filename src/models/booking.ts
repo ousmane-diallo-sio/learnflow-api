@@ -1,21 +1,21 @@
 import Joi from "joi";
 import mongoose from "mongoose";
-import { Student, StudentValidationSchema } from "./student";
-import { Justificative, JustificativeValidationSchema } from "./justificative";
-import { Payment, PaymentValidationSchema } from "./payment";
-import { SchoolSubject, SchoolSubjectValidationSchema } from "./schoolSubject";
-import { Teacher, TeacherValidationSchema } from "./teacher";
+import { IStudent, StudentValidationSchema } from "./student";
+import { IJustificative, JustificativeValidationSchema } from "./justificative";
+import { IPayment, PaymentValidationSchema } from "./payment";
+import { ISchoolSubject, SchoolSubjectValidationSchema } from "./schoolSubject";
+import { ITeacher, TeacherValidationSchema } from "./teacher";
 
-export interface Booking {
+export interface IBooking extends mongoose.Document {
   startDate: Date
   endDate: Date
   isAccepted: boolean
-  schoolSubject: SchoolSubject
-  student: Student
-  teacher: Teacher
-  studentJustificative: Justificative
-  teacherJustificative: Justificative
-  payment: Payment
+  schoolSubject: ISchoolSubject
+  student: IStudent
+  teacher: ITeacher
+  studentJustificative: IJustificative
+  teacherJustificative: IJustificative
+  payment: IPayment
 }
 
 export const BookingValidationSchema = Joi.object({

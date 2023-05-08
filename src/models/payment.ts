@@ -1,7 +1,7 @@
 import Joi from "joi";
 import mongoose from "mongoose";
 
-export interface Payment {
+export interface IPayment extends mongoose.Document {
   amount: number
   date: Date
   isDue: boolean

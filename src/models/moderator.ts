@@ -1,7 +1,7 @@
 import Joi from "joi";
 import mongoose from "mongoose";
 
-export interface Moderator {
+export interface IModerator extends mongoose.Document {
   firstName: string
   lastName: string
   email: string
