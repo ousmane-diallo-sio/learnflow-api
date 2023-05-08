@@ -3,7 +3,7 @@ version: "3.8"
 services:
   mongo:
     container_name: learnflow_db
-    image: mongo:4.2
+    image: mongo:6.0
     restart: always
     ports:
       - 27017:27017
