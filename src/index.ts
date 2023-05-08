@@ -18,5 +18,5 @@ app.get('/', (req, res) => {
 app.use('/students', studentController)
 
 app.listen(envUtils.PORT, () => {
-  logConfirmation(`Server listening on port ${envUtils.PORT}`)
+  logConfirmation(`Server running at http://${envUtils.HOST}:${envUtils.PORT}/`)
 })
