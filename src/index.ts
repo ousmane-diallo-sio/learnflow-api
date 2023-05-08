@@ -1,7 +1,7 @@
 import express from "express";
 import studentController from "./controllers/student";
 import mongoose from 'mongoose';
-import envUtils from "./utils/EnvUtils";
+import envUtils from "./utils/envUtils";
 import { logConfirmation } from "./utils/logUtils";
 
 const app = express()
@@ -18,5 +18,5 @@ app.get('/', (req, res) => {
 app.use('/students', studentController)
 
 app.listen(envUtils.PORT, () => {
-  logConfirmation(`Server listening on port ${envUtils.PORT}`)
+  logConfirmation(`Server running at http://${envUtils.HOST}:${envUtils.PORT}/`)
 })
