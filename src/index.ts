@@ -1,7 +1,7 @@
 import express from "express";
 import studentController from "./controllers/student";
 import mongoose from 'mongoose';
-import envUtils from "./utils/EnvUtils";
+import envUtils from "./utils/envUtils";
 import { logConfirmation } from "./utils/logUtils";
 import bodyParser from "body-parser";
 
