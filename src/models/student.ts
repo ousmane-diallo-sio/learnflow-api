@@ -1,7 +1,7 @@
 import { Address } from "./address";
 import mongoose from "mongoose";
 
-export interface Student {
+export interface IStudent {
   firstName: string
   lastName: string
   birthdate: Date

@@ -1,5 +1,6 @@
 import Joi from "joi"
 import AddressValidationSchema from "./address"
+import { Student } from "../models/student"
 
 const today = new Date()
 const fiveYearsAgo = new Date(today.getFullYear() - 5, today.getMonth(), today.getDate())
