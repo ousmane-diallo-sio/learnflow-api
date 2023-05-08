@@ -34,6 +34,7 @@ $ cd learnflow-api
 Ensuite, créez un fichier `.env` à la racine du projet et ajoutez-y les informations nécessaires :
 
 ```
+HOST=127.0.0.1
 PORT=3000
 MONGO_DB=<MONGO_DATABASE>
 MONGO_USER=<MONGO_USER>
