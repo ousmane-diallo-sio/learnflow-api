@@ -1,16 +1,9 @@
-import Joi from "joi";
 import mongoose from "mongoose";
-import { DocumentTypeValidationSchema } from "./documentType";
 
 export interface Document {
   uploadUrl: string
   documentType: DocumentType
 }
-
-export const DocumentValidationSchema = Joi.object({
-  uploadUrl: Joi.string().min(3).max(2048).required(),
-  documentType: DocumentTypeValidationSchema.required(),
-})
 
 export const DocumentSchema = new mongoose.Schema({
   uploadUrl: {

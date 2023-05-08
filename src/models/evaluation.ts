@@ -1,9 +1,7 @@
-import Joi from "joi";
 import mongoose from "mongoose";
 import { Student } from "./student";
-import { SchoolSubject, SchoolSubjectValidationSchema } from "./schoolSubject";
-import { Teacher, TeacherValidationSchema } from "./teacher";
-import StudentValidationSchema from "../validators/students";
+import { SchoolSubject } from "./schoolSubject";
+import { Teacher } from "./teacher";
 
 export interface Evaluation {
   note: Number
@@ -11,13 +9,6 @@ export interface Evaluation {
   student: Student
   teacher: Teacher
 }
-
-export const EvaluationValidationSchema = Joi.object({
-  note: Joi.number().required(),
-  subject: SchoolSubjectValidationSchema.required(),
-  student: StudentValidationSchema.required(),
-  teacher: TeacherValidationSchema.required(),
-})
 
 export const EvaluationSchema = new mongoose.Schema({
   note: {

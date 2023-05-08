@@ -1,4 +1,4 @@
-import { Address, AddressValidationSchema } from "./address";
+import { Address } from "./address";
 import mongoose from "mongoose";
 
 export interface Student {

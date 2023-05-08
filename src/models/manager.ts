@@ -1,4 +1,3 @@
-import Joi from "joi";
 import mongoose from "mongoose";
 
 export interface Manager {
@@ -6,12 +5,6 @@ export interface Manager {
   lastName: string
   email: string
 }
-
-export const ManagerValidationSchema = Joi.object({
-  firstName: Joi.string().min(1).max(50).required(),
-  lastName: Joi.string().min(1).max(50).required(),
-  email: Joi.string().email().required(),
-})
 
 export const ManagerSchema = new mongoose.Schema({
   firstName: {

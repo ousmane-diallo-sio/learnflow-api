@@ -1,4 +1,3 @@
-import Joi from "joi";
 import mongoose from "mongoose";
 
 export interface Justificative {
@@ -7,13 +6,6 @@ export interface Justificative {
   startDate: Date
   endDate: Date
 }
-
-export const JustificativeValidationSchema = Joi.object({
-  uploadUrl: Joi.string().min(3).max(2048).required(),
-  comment: Joi.string().min(1).max(1224).required(),
-  startDate: Joi.date().required(),
-  endDate: Joi.date().required(),
-})
 
 export const JustificativeSchema = new mongoose.Schema({
   uploadUrl: {
