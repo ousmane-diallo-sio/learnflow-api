@@ -35,10 +35,10 @@ Ensuite, créez un fichier `.env` à la racine du projet et ajoutez-y les inform
 
 ```
 PORT=3000
-MONGO_DB=learnflowdb
-MONGO_USER=<MONGODB_USER>
+MONGO_DB=<MONGO_DATABASE>
+MONGO_USER=<MONGO_USER>
 MONGO_HOST=127.0.0.1
-MONGO_PASSWORD=<MONGODB_PASSWORD>
+MONGO_PASSWORD=<MONGO_PASSWORD>
 MONGO_PORT=27017
 ```
 
