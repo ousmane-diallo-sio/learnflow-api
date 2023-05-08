@@ -1,8 +1,9 @@
 import Joi from "joi";
 import mongoose from "mongoose";
-import { Student, StudentValidationSchema } from "./student";
+import { Student } from "./student";
 import { SchoolSubject, SchoolSubjectValidationSchema } from "./schoolSubject";
 import { Teacher, TeacherValidationSchema } from "./teacher";
+import StudentValidationSchema from "../validators/students";
 
 export interface Evaluation {
   note: Number

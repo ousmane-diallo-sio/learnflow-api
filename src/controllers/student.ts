@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { Student } from "../models/student";
+import StudentValidationSchema from "../validators/students";
 
 const studentController = Router()
 
@@ -17,7 +18,12 @@ studentController.get('/', async (req, res) => {
 studentController.post('/', async (req, res) => {
   const studentData = req.body
   
-  console.log("studentData", req.body)
+  const validation = StudentValidationSchema.validate(studentData)
+  console.log("validation", validation)
+  if (validation.error) {
+    res.status(400).send(JSON.stringify(validation.error.message))
+    return
+  }
 
   try {
     res.contentType('application/json')

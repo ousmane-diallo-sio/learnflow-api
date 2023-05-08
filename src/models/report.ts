@@ -1,10 +1,11 @@
 import Joi from "joi";
 import mongoose from "mongoose";
 import { ReportTypeValidationSchema } from "./reportType";
-import { Student, StudentValidationSchema } from "./student";
+import { Student } from "./student";
 import { Address } from "./address";
 import { Moderator, ModeratorValidationSchema } from "./moderator";
 import { Teacher, TeacherValidationSchema } from "./teacher";
+import StudentValidationSchema from "../validators/students";
 
 export interface Report {
   date: Date

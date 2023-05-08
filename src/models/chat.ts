@@ -1,9 +1,10 @@
 import Joi from "joi";
 import mongoose from "mongoose";
-import { Student, StudentValidationSchema } from "./student";
+import { Student } from "./student";
 import { Moderator, ModeratorValidationSchema } from "./moderator";
 import { Teacher } from "./teacher";
 import { TeacherValidationSchema } from "./teacher";
+import StudentValidationSchema from "../validators/students";
 
 export interface Chat {
   message: string
