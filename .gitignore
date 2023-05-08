@@ -134,3 +134,6 @@ dist
 
 # Database data
 data/
+
+# Build files
+build/
