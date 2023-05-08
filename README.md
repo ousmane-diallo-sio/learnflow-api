@@ -1,7 +1,7 @@
 <img src="public/images/logo-1-transparent.png" align="right" width="125px"/>
 
-Learn Flow API
-========================
+Learn Flow API [![Licence](https://img.shields.io/badge/licence-MIT-a51931.svg?style=flat-square)](https://github.com/ousmane-diallo-sio/learnflow-api/blob/main/LICENSE)
+==============
 
 Learn Flow API – par [@Aaldn](https://github.com/Aaldn) [@ousmane-diallo-sio](https://github.com/ousmane-diallo-sio) [@theo-sio](https://github.com/theo-sio)
 
@@ -71,3 +71,7 @@ La commande suivante vous permet d'entrer dans le shell d'un des conteneurs :
 ```bash
 $ docker exec -it <nom_du_conteneur> sh
 ```
+
+## Licence
+
+Voir le fichier [LICENSE](https://github.com/ousmane-diallo-sio/learnflow-api/blob/main/LICENSE) fourni.
