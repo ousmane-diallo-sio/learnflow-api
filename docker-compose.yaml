@@ -16,6 +16,20 @@ services:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
       MONGO_INITDB_DATABASE: ${MONGO_DB}
+  
+  express:
+    container_name: learnflow_api
+    build: .
+    restart: always
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    depends_on:
+      - mongo
+    networks:
+      - mongo-express
+    ports: 
+      - 3000:3000
 
 networks:
   mongo-express:
