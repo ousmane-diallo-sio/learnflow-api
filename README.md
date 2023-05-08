@@ -41,9 +41,11 @@ MONGO_INITDB_ROOT_PASSWORD=<MONGO_PASSWORD>
 # Express service variables
 HOST=127.0.0.1
 PORT=3000
+MONGO_USER=learnflowuser
+MONGO_PASSWORD=learnflowpwd
 MONGO_HOST=mongo
 MONGO_PORT=27017
-MONGO_DB=<MONGO_DATABASE>
+MONGO_DB=learnflowdb
 ```
 
 Enfin, construisez et lancez les conteneurs Docker :
