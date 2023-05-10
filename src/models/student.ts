@@ -1,8 +1,7 @@
-import Joi from "joi";
-import { Address, AddressValidationSchema } from "./address";
+import { Address } from "./address";
 import mongoose from "mongoose";
 
-export interface Student {
+export interface IStudent {
   firstName: string
   lastName: string
   birthdate: Date
@@ -11,16 +10,6 @@ export interface Student {
   profilePictureUrl: string
   address: Address
 }
-
-export const StudentValidationSchema = Joi.object({
-  firstName: Joi.string().min(1).max(50).required(),
-  lastName: Joi.string().min(1).max(50).required(),
-  birthdate: Joi.date().required(),
-  email: Joi.string().email().required(),
-  phoneNumber: Joi.string().pattern(/^((\+)33|0|0033)[1-9](\d{2}){4}$/).required(),
-  profilePictureUrl: Joi.string().min(1).max(2048).required(),
-  address: AddressValidationSchema.required(),
-})
 
 export const StudentSchema = new mongoose.Schema({
   firstName: {

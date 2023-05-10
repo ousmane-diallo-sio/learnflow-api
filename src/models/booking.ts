@@ -1,10 +1,9 @@
-import Joi from "joi";
 import mongoose from "mongoose";
-import { Student, StudentValidationSchema } from "./student";
-import { Justificative, JustificativeValidationSchema } from "./justificative";
-import { Payment, PaymentValidationSchema } from "./payment";
-import { SchoolSubject, SchoolSubjectValidationSchema } from "./schoolSubject";
-import { Teacher, TeacherValidationSchema } from "./teacher";
+import { Student } from "./student";
+import { Justificative } from "./justificative";
+import { Payment } from "./payment";
+import { SchoolSubject } from "./schoolSubject";
+import { Teacher } from "./teacher";
 
 export interface Booking {
   startDate: Date
@@ -17,18 +16,6 @@ export interface Booking {
   teacherJustificative: Justificative
   payment: Payment
 }
-
-export const BookingValidationSchema = Joi.object({
-  startDate: Joi.date().required(),
-  endDate: Joi.date().required(),
-  isAccepted: Joi.boolean().required(),
-  schoolSubject: SchoolSubjectValidationSchema.required(),
-  student: StudentValidationSchema.required(),
-  teacher: TeacherValidationSchema.required(),
-  studentJustificative: JustificativeValidationSchema.required(),
-  teacherJustificative: JustificativeValidationSchema.required(),
-  payment: PaymentValidationSchema.required(),
-})
 
 export const BookingSchema = new mongoose.Schema({
   startDate: {

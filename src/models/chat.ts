@@ -1,9 +1,7 @@
-import Joi from "joi";
 import mongoose from "mongoose";
-import { Student, StudentValidationSchema } from "./student";
-import { Moderator, ModeratorValidationSchema } from "./moderator";
+import { Student } from "./student";
+import { Moderator } from "./moderator";
 import { Teacher } from "./teacher";
-import { TeacherValidationSchema } from "./teacher";
 
 export interface Chat {
   message: string
@@ -12,14 +10,6 @@ export interface Chat {
   moderator: Moderator
   teacher: Teacher
 }
-
-export const ChatValidationSchema = Joi.object({
-  message: Joi.string().min(1).max(1224).required(),
-  datetime: Joi.date().required(),
-  student: StudentValidationSchema.required(),
-  moderator: ModeratorValidationSchema.required(),
-  teacher: TeacherValidationSchema.required(),
-})
 
 export const ChatSchema = new mongoose.Schema({
   message: {
