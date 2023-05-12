@@ -1,6 +1,6 @@
 import Joi from "joi";
 import { IAddress, AddressValidationSchema } from "./address";
-import mongoose from "mongoose";
+import mongoose, { InferSchemaType } from "mongoose";
 import { DocumentValidationSchema } from './document';
 
 export interface ITeacher extends mongoose.Document {
@@ -72,4 +72,5 @@ export const TeacherSchema = new mongoose.Schema({
   },
 })
 
-export const Teacher = mongoose.model('Teacher', TeacherSchema)
+export type Teacher = InferSchemaType<typeof TeacherSchema>;
+export const TeacherModel = mongoose.model('Teacher', TeacherSchema)

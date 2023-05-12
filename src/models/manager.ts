@@ -1,5 +1,5 @@
 import Joi from "joi";
-import mongoose from "mongoose";
+import mongoose, { InferSchemaType } from "mongoose";
 
 export interface IManager extends mongoose.Document {
   firstName: string
@@ -35,4 +35,5 @@ export const ManagerSchema = new mongoose.Schema({
   },
 })
 
-export const Manager = mongoose.model('Manager', ManagerSchema)
+export type Manager = InferSchemaType<typeof ManagerSchema>;
+export const ManagerModel = mongoose.model('Manager', ManagerSchema)

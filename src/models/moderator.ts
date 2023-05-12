@@ -1,5 +1,5 @@
 import Joi from "joi";
-import mongoose from "mongoose";
+import mongoose, { InferSchemaType } from "mongoose";
 
 export interface IModerator extends mongoose.Document {
   firstName: string
@@ -35,4 +35,5 @@ export const ModeratorSchema = new mongoose.Schema({
   },
 })
 
-export const Moderator = mongoose.model('Moderator', ModeratorSchema)
+export type Moderator = InferSchemaType<typeof ModeratorSchema>;
+export const ModeratorModel = mongoose.model('Moderator', ModeratorSchema)
