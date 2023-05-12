@@ -7,6 +7,7 @@ export interface IStudent extends mongoose.Document {
   lastName: string
   birthdate: Date
   email: string
+  password: string
   phoneNumber: string
   profilePictureUrl: string
   address: IAddress
@@ -17,6 +18,7 @@ export const StudentValidationSchema = Joi.object({
   lastName: Joi.string().min(1).max(50).required(),
   birthdate: Joi.date().required(),
   email: Joi.string().email().required(),
+  password: Joi.string().required(),
   phoneNumber: Joi.string().pattern(/^((\+)33|0|0033)[1-9](\d{2}){4}$/).required(),
   profilePictureUrl: Joi.string().min(1).max(2048).required(),
   address: AddressValidationSchema.required(),
@@ -39,7 +41,11 @@ export const StudentSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-},
+  },
+  password: {
+    type: String,
+    required: true,
+  },
   phoneNumber: {
     type: String,
     required: true,
