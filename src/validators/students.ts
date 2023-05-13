@@ -1,6 +1,7 @@
 import Joi from "joi"
 import AddressValidationSchema from "./address"
 import { Student } from "../models/student"
+import { PasswordValidationSchema } from "./password"
 
 const today = new Date()
 const fiveYearsAgo = new Date(today.getFullYear() - 5, today.getMonth(), today.getDate())
@@ -47,6 +48,7 @@ const StudentValidationSchema = Joi.object({
       'any.required': 'L\'URL de la photo de profil est obligatoire'
     }),
   address: AddressValidationSchema.required(),
+  password: PasswordValidationSchema.required(),
 })
 
 export default StudentValidationSchema

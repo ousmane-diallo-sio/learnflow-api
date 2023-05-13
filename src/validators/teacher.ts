@@ -1,6 +1,7 @@
 import Joi from "joi";
 import AddressValidationSchema from "./address";
 import DocumentValidationSchema from "./document";
+import { PasswordValidationSchema } from "./password";
 
 const TeacherValidationSchema = Joi.object({
   firstName: Joi.string().min(2).max(20).required(),
@@ -11,7 +12,8 @@ const TeacherValidationSchema = Joi.object({
   profilePictureUrl: Joi.string().min(1).max(2048).required(),
   isValidated: Joi.boolean().required(),
   address: AddressValidationSchema.required(),
-  documents: Joi.array().items(DocumentValidationSchema.required())
+  documents: Joi.array().items(DocumentValidationSchema.required()),
+  password: PasswordValidationSchema.required()
 })
 
 export default TeacherValidationSchema

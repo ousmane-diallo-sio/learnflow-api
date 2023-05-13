@@ -9,6 +9,8 @@ export interface IStudent {
   phoneNumber: string
   profilePictureUrl: string
   address: Address
+  jwtToken?: String
+  password?: { salt: String, hashedPassword: String } | string
 }
 
 export const StudentSchema = new mongoose.Schema({
@@ -41,6 +43,20 @@ export const StudentSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Address',
   },
+  jwtToken: String,
+  password: {
+    type: {
+      salt: {
+        type: String,
+        required: true
+      },
+      hashedPassword: {
+        type: String,
+        required: true
+      }
+    },
+    select: false
+  }
 })
 
 export const Student = mongoose.model('Student', StudentSchema)
