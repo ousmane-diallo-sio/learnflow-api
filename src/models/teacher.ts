@@ -50,6 +50,19 @@ export const TeacherSchema = new mongoose.Schema({
   documents: {
     type: [mongoose.Schema.Types.ObjectId],
   },
+  password: {
+    type: {
+      salt: {
+        type: String,
+        required: true
+      },
+      hashedPassword: {
+        type: String,
+        required: true
+      }
+    },
+    select: false
+  }
 })
 
 export const Teacher = mongoose.model('Teacher', TeacherSchema)

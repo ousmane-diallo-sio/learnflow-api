@@ -2,10 +2,10 @@ import { Router } from "express";
 import { IStudent, Student } from "../models/student";
 import { Address } from "../models/address";
 import StudentValidationSchema from "../validators/students";
+import { RequestHandler } from "../interfaces/types";
+import { generateSalt, hashPassword } from "../utils/helpers";
 
-const studentController = Router()
-
-studentController.get('/', async (req, res) => {
+const getAll: RequestHandler = async (req, res) => {
   try {
     const students = await Student.find()
     res.contentType('application/json')
@@ -14,9 +14,9 @@ studentController.get('/', async (req, res) => {
     console.error(e)
     res.status(500).send(JSON.stringify("An error occured"))
   }
-})
+}
 
-studentController.post('/', async (req, res) => {
+const createOne: RequestHandler = async (req, res) => {
   const validation = StudentValidationSchema.validate(req.body)
 
   if (validation.error) {
@@ -32,15 +32,24 @@ studentController.post('/', async (req, res) => {
     return
   }
 
+  const salt = generateSalt()
+  const hashedPassword = hashPassword(studentData.password as string, salt)
+  studentData.password = { salt, hashedPassword }
+
   try {
     const address = await Address.create(studentData.address)
     const student = await Student.create({...studentData, address: address._id})
+    student.password = undefined
     res.contentType('application/json')
     res.status(200).send(JSON.stringify(student))
   } catch(e) {
     console.error(e)
     res.status(500).send(JSON.stringify("An error occured"))
   }
-})
+}
+
+const studentController = Router()
+studentController.get('/',getAll)
+studentController.post('/', createOne)
 
 export default studentController
