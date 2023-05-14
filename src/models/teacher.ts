@@ -6,7 +6,7 @@ export interface ITeacher extends mongoose.Document {
   lastName: string
   birthdate: Date
   email: string
-  password?: { salt: String, hashedPassword: String } | string
+  password?: string
   jwt?: String
   phoneNumber: string
   profilePictureUrl: string
@@ -34,16 +34,7 @@ export const TeacherSchema = new mongoose.Schema({
     unique: true,
   },
   password: {
-    type: {
-      salt: {
-        type: String,
-        required: true
-      },
-      hashedPassword: {
-        type: String,
-        required: true
-      }
-    },
+    type: String,
     select: false
   },
   jwtToken: String,

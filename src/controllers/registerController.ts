@@ -2,7 +2,7 @@ import { Router } from "express";
 import { Address } from "../models/address";
 import { IStudent, StudentModel } from "../models/student";
 import { ITeacher, TeacherModel } from "../models/teacher";
-import { generateSalt, hashPassword } from "../utils/helpers";
+import { hashPassword } from "../utils/helpers";
 
 const registerController = Router()
 
@@ -13,9 +13,8 @@ registerController.post('/student', async (req, res) => {
     res.status(400).send(JSON.stringify('Cet email est déjà lié à un compte'))
     return
   }
-  const salt = generateSalt()
-  const hashedPassword = hashPassword(studentData.password as string, salt)
-  studentData.password = { salt, hashedPassword }
+  const hashedPassword = await hashPassword(studentData.password as string)
+  studentData.password = hashedPassword
   try {
     const address = await Address.create(studentData.address)
     const student = await StudentModel.create({...studentData, address: address._id})
@@ -35,9 +34,8 @@ registerController.post('/teacher', async (req, res) => {
     res.status(400).send(JSON.stringify('Cet email est déjà lié à un compte'))
     return
   }
-  const salt = generateSalt()
-  const hashedPassword = hashPassword(teacherData.password as string, salt)
-  teacherData.password = { salt, hashedPassword }
+  const hashedPassword = await hashPassword(teacherData.password as string)
+  teacherData.password = hashedPassword
   try {
     const address = await Address.create(teacherData.address)
     const teacher = await TeacherModel.create({...teacherData, address: address._id})
