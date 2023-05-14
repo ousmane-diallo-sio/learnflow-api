@@ -31,12 +31,12 @@ $ git clone https://github.com/ousmane-diallo-sio/learnflow-api
 $ cd learnflow-api
 ```
 
-Ensuite, créez un fichier `.env` à la racine du projet et ajoutez-y les informations nécessaires :
+Ensuite, créez un fichier `.env` à la racine du projet et ajoutez-y les informations nécessaires. Exemple :
 
 ```
 # Mongo service variables
-MONGO_INITDB_ROOT_USERNAME=<MONGO_USER>
-MONGO_INITDB_ROOT_PASSWORD=<MONGO_PASSWORD>
+MONGO_INITDB_ROOT_USERNAME=root
+MONGO_INITDB_ROOT_PASSWORD=root
 
 # Express service variables
 HOST=127.0.0.1
