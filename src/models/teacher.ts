@@ -7,7 +7,7 @@ export interface ITeacher extends mongoose.Document {
   birthdate: Date
   email: string
   password?: { salt: String, hashedPassword: String } | string
-  jwtToken?: String
+  jwt?: String
   phoneNumber: string
   profilePictureUrl: string
   isValidated: boolean

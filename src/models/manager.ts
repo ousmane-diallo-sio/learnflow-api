@@ -6,7 +6,7 @@ export interface IManager extends mongoose.Document {
   lastName: string
   email: string
   password?: { salt: String, hashedPassword: String } | string
-  jwtToken?: String
+  jwt?: String
 }
 
 export const ManagerSchema = new mongoose.Schema({

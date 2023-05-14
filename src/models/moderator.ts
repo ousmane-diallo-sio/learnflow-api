@@ -6,7 +6,7 @@ export interface IModerator extends mongoose.Document {
   lastName: string
   email: string
   password?: { salt: String, hashedPassword: String } | string
-  jwtToken?: String
+  jwt?: String
 }
 
 export const ModeratorSchema = new mongoose.Schema({
