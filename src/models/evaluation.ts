@@ -1,13 +1,13 @@
 import mongoose from "mongoose";
-import { Student } from "./student";
-import { SchoolSubject } from "./schoolSubject";
-import { Teacher } from "./teacher";
+import { IStudent } from "./student";
+import { ISchoolSubject } from "./schoolSubject";
+import { ITeacher } from "./teacher";
 
-export interface Evaluation {
+export interface IEvaluation extends mongoose.Document {
   note: Number
-  subject: SchoolSubject
-  student: Student
-  teacher: Teacher
+  subject: ISchoolSubject
+  student: IStudent
+  teacher: ITeacher
 }
 
 export const EvaluationSchema = new mongoose.Schema({

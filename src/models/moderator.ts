@@ -1,9 +1,12 @@
-import mongoose from "mongoose";
+import Joi from "joi";
+import mongoose, { InferSchemaType } from "mongoose";
 
-export interface Moderator {
+export interface IModerator extends mongoose.Document {
   firstName: string
   lastName: string
   email: string
+  password?: { salt: String, hashedPassword: String } | string
+  jwtToken?: String
 }
 
 export const ModeratorSchema = new mongoose.Schema({
@@ -20,6 +23,21 @@ export const ModeratorSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  password: {
+    type: {
+      salt: {
+        type: String,
+        required: true
+      },
+      hashedPassword: {
+        type: String,
+        required: true
+      }
+    },
+    select: false
+  },
+  jwtToken: String,
 })
 
-export const Moderator = mongoose.model('Moderator', ModeratorSchema)
+export type Moderator = InferSchemaType<typeof ModeratorSchema>;
+export const ModeratorModel = mongoose.model('Moderator', ModeratorSchema)

@@ -1,16 +1,16 @@
-import { Address } from "./address";
-import mongoose from "mongoose";
+import { IAddress } from "./address";
+import mongoose, { InferSchemaType } from "mongoose";
 
-export interface IStudent {
+export interface IStudent extends mongoose.Document {
   firstName: string
   lastName: string
   birthdate: Date
   email: string
+  password?: { salt: String, hashedPassword: String } | string
+  jwtToken?: String
   phoneNumber: string
   profilePictureUrl: string
-  address: Address
-  jwtToken?: String
-  password?: { salt: String, hashedPassword: String } | string
+  address: IAddress
 }
 
 export const StudentSchema = new mongoose.Schema({
@@ -30,20 +30,7 @@ export const StudentSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-},
-  phoneNumber: {
-    type: String,
-    required: true,
   },
-  profilePictureUrl: {
-    type: String,
-    required: true,
-  },
-  address: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Address',
-  },
-  jwtToken: String,
   password: {
     type: {
       salt: {
@@ -56,7 +43,21 @@ export const StudentSchema = new mongoose.Schema({
       }
     },
     select: false
-  }
+  },
+  jwtToken: String,
+  phoneNumber: {
+    type: String,
+    required: true,
+  },
+  profilePictureUrl: {
+    type: String,
+    required: true,
+  },
+  address: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Address',
+  },
 })
 
-export const Student = mongoose.model('Student', StudentSchema)
+export type Student = InferSchemaType<typeof StudentSchema>;
+export const StudentModel = mongoose.model('Student', StudentSchema)

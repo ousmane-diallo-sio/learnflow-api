@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
-import { SchoolSubject } from "./schoolSubject";
-import { Teacher } from "./teacher";
+import { ISchoolSubject } from "./schoolSubject";
+import { ITeacher } from "./teacher";
 
-export interface SchoolSubjectTaught {
+export interface ISchoolSubjectTaught extends mongoose.Document {
   yearsOfExperience: Number
-  schoolSubject: SchoolSubject
-  teacher: Teacher
+  schoolSubject: ISchoolSubject
+  teacher: ITeacher
 }
 
 export const SchoolSubjectTaughtSchema = new mongoose.Schema({

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-export interface Justificative {
+export interface IJustificative extends mongoose.Document {
   uploadUrl: string
   comment: string
   startDate: Date

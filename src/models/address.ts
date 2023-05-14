@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-export interface Address {
+export interface IAddress extends mongoose.Document {
   city: string
   zipCode: string
   street: string

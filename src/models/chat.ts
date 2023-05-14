@@ -1,14 +1,14 @@
 import mongoose from "mongoose";
-import { Student } from "./student";
-import { Moderator } from "./moderator";
-import { Teacher } from "./teacher";
+import { IStudent } from "./student";
+import { IModerator } from "./moderator";
+import { ITeacher } from "./teacher";
 
-export interface Chat {
+export interface Chat extends mongoose.Document {
   message: string
   datetime: Date
-  student: Student
-  moderator: Moderator
-  teacher: Teacher
+  student: IStudent
+  moderator: IModerator
+  teacher: ITeacher
 }
 
 export const ChatSchema = new mongoose.Schema({

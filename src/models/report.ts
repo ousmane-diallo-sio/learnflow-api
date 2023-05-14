@@ -1,17 +1,17 @@
 import mongoose from "mongoose";
-import { Student } from "./student";
-import { Address } from "./address";
-import { Moderator } from "./moderator";
-import { Teacher } from "./teacher";
+import { IStudent } from "./student";
+import { IAddress } from "./address";
+import { IModerator } from "./moderator";
+import { ITeacher } from "./teacher";
 
-export interface Report {
+export interface IReport extends mongoose.Document {
   date: Date
   reason: string
   detail: string
-  reportType: Address
-  student: Student
-  moderator: Moderator
-  teacher: Teacher
+  reportType: IAddress
+  student: IStudent
+  moderator: IModerator
+  teacher: ITeacher
 }
 
 export const ReportSchema = new mongoose.Schema({

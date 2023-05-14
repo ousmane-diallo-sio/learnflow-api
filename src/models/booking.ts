@@ -1,20 +1,20 @@
 import mongoose from "mongoose";
-import { Student } from "./student";
-import { Justificative } from "./justificative";
-import { Payment } from "./payment";
-import { SchoolSubject } from "./schoolSubject";
-import { Teacher } from "./teacher";
+import { IStudent } from "./student";
+import { IJustificative } from "./justificative";
+import { IPayment } from "./payment";
+import { ISchoolSubject } from "./schoolSubject";
+import { ITeacher } from "./teacher";
 
-export interface Booking {
+export interface IBooking extends mongoose.Document {
   startDate: Date
   endDate: Date
   isAccepted: boolean
-  schoolSubject: SchoolSubject
-  student: Student
-  teacher: Teacher
-  studentJustificative: Justificative
-  teacherJustificative: Justificative
-  payment: Payment
+  schoolSubject: ISchoolSubject
+  student: IStudent
+  teacher: ITeacher
+  studentJustificative: IJustificative
+  teacherJustificative: IJustificative
+  payment: IPayment
 }
 
 export const BookingSchema = new mongoose.Schema({

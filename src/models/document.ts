@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-export interface Document {
+export interface IDocument extends mongoose.Document {
   uploadUrl: string
   documentType: DocumentType
 }

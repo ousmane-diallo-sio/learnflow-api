@@ -1,15 +1,17 @@
-import { Address } from "./address";
-import mongoose from "mongoose";
+import { IAddress } from "./address";
+import mongoose, { InferSchemaType } from "mongoose";
 
-export interface Teacher {
+export interface ITeacher extends mongoose.Document {
   firstName: string
   lastName: string
   birthdate: Date
   email: string
+  password?: { salt: String, hashedPassword: String } | string
+  jwtToken?: String
   phoneNumber: string
   profilePictureUrl: string
   isValidated: boolean
-  address: Address
+  address: IAddress
   documents: Array<Document>
 }
 
@@ -30,7 +32,21 @@ export const TeacherSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-},
+  },
+  password: {
+    type: {
+      salt: {
+        type: String,
+        required: true
+      },
+      hashedPassword: {
+        type: String,
+        required: true
+      }
+    },
+    select: false
+  },
+  jwtToken: String,
   phoneNumber: {
     type: String,
     required: true,
@@ -50,19 +66,7 @@ export const TeacherSchema = new mongoose.Schema({
   documents: {
     type: [mongoose.Schema.Types.ObjectId],
   },
-  password: {
-    type: {
-      salt: {
-        type: String,
-        required: true
-      },
-      hashedPassword: {
-        type: String,
-        required: true
-      }
-    },
-    select: false
-  }
 })
 
-export const Teacher = mongoose.model('Teacher', TeacherSchema)
+export type Teacher = InferSchemaType<typeof TeacherSchema>;
+export const TeacherModel = mongoose.model('Teacher', TeacherSchema)
