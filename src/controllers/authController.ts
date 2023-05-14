@@ -24,7 +24,7 @@ authController.post("/manager", async (req, res) => {
       const token = generateToken({email: manager.email}, res.jwt)
       return res.cookie("access_token", token, {
         httpOnly: true,
-        secure: true,
+        secure: process.env.NODE_ENV === "production",
       }).status(200).send(JSON.stringify("Successfully authenticated"))
     } catch(e) {
       console.error(e)
@@ -44,7 +44,7 @@ authController.post("/moderator", async (req, res) => {
       const token = generateToken({email: moderator.email}, res.jwt)
       return res.cookie("access_token", token, {
         httpOnly: true,
-        secure: true,
+        secure: process.env.NODE_ENV === "production",
       }).status(200).send(JSON.stringify("Successfully authenticated"))
     } catch(e) {
       console.error(e)
@@ -64,7 +64,7 @@ authController.post("/student", async (req, res) => {
       const token = generateToken({email: student.email}, res.jwt)
       return res.cookie("access_token", token, {
         httpOnly: true,
-        secure: true,
+        secure: process.env.NODE_ENV === "production",
       }).status(200).send(JSON.stringify("Successfully authenticated"))
     } catch(e) {
       console.error(e)
@@ -84,7 +84,7 @@ authController.post("/teacher", async (req, res) => {
       const token = generateToken({email: teacher.email}, res.jwt)
       return res.cookie("access_token", token, {
         httpOnly: true,
-        secure: true,
+        secure: process.env.NODE_ENV === "production",
       }).status(200).send(JSON.stringify("Successfully authenticated"))
     } catch(e) {
       console.error(e)
