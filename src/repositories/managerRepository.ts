@@ -18,6 +18,11 @@ export class ManagerRepository implements IRepository<IManager, IManager> {
         return manager;
     }
 
+    async getOneByEmailWithPassword(email: string): Promise<IManager | null> {
+        const manager = await ManagerModel.findOne({ email }).select("+password");
+        return manager;
+    }
+
     async deleteOne(id: string): Promise<boolean> {
         const manager = await ManagerModel.findByIdAndDelete(id);
         if (!manager) {

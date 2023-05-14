@@ -18,6 +18,11 @@ export class ModeratorRepository implements IRepository<IModerator, IModerator> 
         return moderator;
     }
 
+    async getOneByEmailWithPassword(email: string): Promise<IModerator | null> {
+        const moderator = await ModeratorModel.findOne({ email }).select("+password");
+        return moderator;
+    }
+
     async deleteOne(id: string): Promise<boolean> {
         const moderator = await ModeratorModel.findByIdAndDelete(id);
         if (!moderator) {

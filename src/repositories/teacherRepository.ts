@@ -18,6 +18,11 @@ export class TeacherRepository implements IRepository<ITeacher, ITeacher> {
         return teacher;
     }
 
+    async getOneByEmailWithPassword(email: string): Promise<ITeacher | null> {
+        const teacher = await TeacherModel.findOne({ email }).select("+password");
+        return teacher;
+    }
+
     async deleteOne(id: string): Promise<boolean> {
         const teacher = await TeacherModel.findByIdAndDelete(id);
         if (!teacher) {

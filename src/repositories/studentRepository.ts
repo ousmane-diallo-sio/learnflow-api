@@ -15,7 +15,11 @@ export class StudentRepository implements IRepository<IStudent, IStudent> {
 
     async getOneByEmail(email: string): Promise<IStudent | null> {
         const student = await StudentModel.findOne({ email });
+        return student;
+    }
 
+    async getOneByEmailWithPassword(email: string): Promise<IStudent | null> {
+        const student = await StudentModel.findOne({ email }).select("+password");
         return student;
     }
 
