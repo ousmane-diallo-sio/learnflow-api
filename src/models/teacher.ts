@@ -69,4 +69,4 @@ export const TeacherSchema = new mongoose.Schema({
 })
 
 export type Teacher = InferSchemaType<typeof TeacherSchema>;
-export const TeacherModel = mongoose.model('Teacher', TeacherSchema)
+export const TeacherModel = mongoose.model<ITeacher>('Teacher', TeacherSchema)

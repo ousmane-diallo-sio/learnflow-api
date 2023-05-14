@@ -40,4 +40,4 @@ export const ManagerSchema = new mongoose.Schema({
 })
 
 export type Manager = InferSchemaType<typeof ManagerSchema>;
-export const ManagerModel = mongoose.model('Manager', ManagerSchema)
+export const ManagerModel = mongoose.model<IManager>('Manager', ManagerSchema)

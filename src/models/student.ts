@@ -60,4 +60,4 @@ export const StudentSchema = new mongoose.Schema({
 })
 
 export type Student = InferSchemaType<typeof StudentSchema>;
-export const StudentModel = mongoose.model('Student', StudentSchema)
+export const StudentModel = mongoose.model<IStudent>('Student', StudentSchema)

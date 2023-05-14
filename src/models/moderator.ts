@@ -40,4 +40,4 @@ export const ModeratorSchema = new mongoose.Schema({
 })
 
 export type Moderator = InferSchemaType<typeof ModeratorSchema>;
-export const ModeratorModel = mongoose.model('Moderator', ModeratorSchema)
+export const ModeratorModel = mongoose.model<IModerator>('Moderator', ModeratorSchema)
