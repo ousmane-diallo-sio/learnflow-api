@@ -1,10 +1,18 @@
 import express from "express";
-import studentController from "./controllers/student";
 import mongoose from 'mongoose';
 import envUtils from "./utils/envUtils";
 import { logConfirmation } from "./utils/logUtils";
 import bodyParser from "body-parser";
 import { requestLogger } from "./middlewares/logMiddleware";
+import jwt from "jwt-express"
+import cookieParser from "cookie-parser";
+import configService from "./services/configService";
+import authController from "./controllers/authController";
+import managerController from "./controllers/managerController";
+import registerController from "./controllers/registerController";
+import studentController from "./controllers/studentController";
+import moderatorController from "./controllers/moderatorController";
+import teacherController from "./controllers/teacherController";
 
 const app = express()
 
@@ -19,7 +27,16 @@ app.get('/', (req, res) => {
 
 app.use(bodyParser.json())
 app.use(requestLogger)
+app.use(cookieParser())
+app.use(jwt.init(configService.JWT_SECRET ?? "None", { cookies: false, stales: 3600000}))
+
+app.use('/login', authController)
+app.use('/register',registerController)
+
+app.use('/managers', managerController)
+app.use('/moderators', moderatorController)
 app.use('/students', studentController)
+app.use('/teachers', teacherController)
 
 app.listen(envUtils.PORT, () => {
   logConfirmation(`Server running at http://${envUtils.HOST}:${envUtils.PORT}/`)
