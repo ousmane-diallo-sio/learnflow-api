@@ -5,9 +5,9 @@ Learn Flow API [![Licence](https://img.shields.io/badge/licence-MIT-a51931.svg?s
 
 Learn Flow API – par [@Aaldn](https://github.com/Aaldn) [@ousmane-diallo-sio](https://github.com/ousmane-diallo-sio) [@theo-sio](https://github.com/theo-sio)
 
-[![Node.js 20](https://img.shields.io/badge/Node.js-20.1-349934.svg?style=flat-square&logo=node.js)](https://symfony.com/5)
-[![Express.js 4](https://img.shields.io/badge/Express.js-4.18-e5e8e4.svg?style=flat-square&logo=express)](https://getcomposer.org/)
-[![MongoDB 10](https://img.shields.io/badge/MongoDB-6.0-48a248.svg?style=flat-square&logo=mongodb)](https://mariadb.org/)
+[![Node.js 20](https://img.shields.io/badge/Node.js-20.1-349934.svg?style=flat-square&logo=node.js)](https://nodejs.org/)
+[![Express.js 4](https://img.shields.io/badge/Express.js-4.18-e5e8e4.svg?style=flat-square&logo=express)](https://expressjs.com/)
+[![MongoDB 10](https://img.shields.io/badge/MongoDB-6.0-48a248.svg?style=flat-square&logo=mongodb)](https://www.mongodb.com/)
 
 API REST du projet [Learn Flow](https://github.com/Aaldn/learnflow-documentation).
 
