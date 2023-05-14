@@ -22,7 +22,10 @@ authController.post("/manager", async (req, res) => {
         return
       }
       const token = generateToken({email: manager.email}, res.jwt)
-      res.status(200).send(token)
+      return res.cookie("access_token", token, {
+        httpOnly: true,
+        secure: true,
+      }).status(200).send(JSON.stringify("Successfully authenticated"))
     } catch(e) {
       console.error(e)
       res.status(500).send(JSON.stringify("An error occured"))
@@ -39,7 +42,10 @@ authController.post("/moderator", async (req, res) => {
         return
       }
       const token = generateToken({email: moderator.email}, res.jwt)
-      res.status(200).send(token)
+      return res.cookie("access_token", token, {
+        httpOnly: true,
+        secure: true,
+      }).status(200).send(JSON.stringify("Successfully authenticated"))
     } catch(e) {
       console.error(e)
       res.status(500).send(JSON.stringify("An error occured"))
@@ -56,7 +62,10 @@ authController.post("/student", async (req, res) => {
         return
       }
       const token = generateToken({email: student.email}, res.jwt)
-      res.status(200).send(token)
+      return res.cookie("access_token", token, {
+        httpOnly: true,
+        secure: true,
+      }).status(200).send(JSON.stringify("Successfully authenticated"))
     } catch(e) {
       console.error(e)
       res.status(500).send(JSON.stringify("An error occured"))
@@ -73,7 +82,10 @@ authController.post("/teacher", async (req, res) => {
         return
       }
       const token = generateToken({email: teacher.email}, res.jwt)
-      res.status(200).send(token)
+      return res.cookie("access_token", token, {
+        httpOnly: true,
+        secure: true,
+      }).status(200).send(JSON.stringify("Successfully authenticated"))
     } catch(e) {
       console.error(e)
       res.status(500).send(JSON.stringify("An error occured"))
