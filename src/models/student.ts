@@ -7,7 +7,7 @@ export interface IStudent extends mongoose.Document {
   birthdate: Date
   email: string
   password?: string
-  jwt?: String
+  role: string
   phoneNumber: string
   profilePictureUrl: string
   address: IAddress
@@ -35,7 +35,11 @@ export const StudentSchema = new mongoose.Schema({
     type: String,
     select: false
   },
-  jwtToken: String,
+  role: {
+    type: String,
+    default: "student",
+    required: true,
+  },
   phoneNumber: {
     type: String,
     required: true,

@@ -21,7 +21,7 @@ authController.post("/manager", async (req, res) => {
         res.status(401).send({ status: 401, message: "Wrong email or password" })
         return
       }
-      const token = generateToken({email: manager.email}, res.jwt)
+      const token = generateToken({ email: manager.email, role: manager.role }, res.jwt)
       return res.cookie("access_token", token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
@@ -41,7 +41,7 @@ authController.post("/moderator", async (req, res) => {
         res.status(401).send({ status: 401, message: "Wrong email or password" })
         return
       }
-      const token = generateToken({email: moderator.email}, res.jwt)
+      const token = generateToken({ email: moderator.email, role: moderator.role }, res.jwt)
       return res.cookie("access_token", token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
@@ -61,7 +61,7 @@ authController.post("/student", async (req, res) => {
         res.status(401).send({ status: 401, message: "Wrong email or password" })
         return
       }
-      const token = generateToken({email: student.email}, res.jwt)
+      const token = generateToken({ email: student.email, role: student.role }, res.jwt)
       return res.cookie("access_token", token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
@@ -81,7 +81,7 @@ authController.post("/teacher", async (req, res) => {
         res.status(401).send({ status: 401, message: "Wrong email or password" })
         return
       }
-      const token = generateToken({email: teacher.email}, res.jwt)
+      const token = generateToken({ email: teacher.email, role: teacher.role }, res.jwt)
       return res.cookie("access_token", token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",

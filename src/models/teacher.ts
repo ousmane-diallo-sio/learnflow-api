@@ -7,7 +7,7 @@ export interface ITeacher extends mongoose.Document {
   birthdate: Date
   email: string
   password?: string
-  jwt?: String
+  role: string
   phoneNumber: string
   profilePictureUrl: string
   isValidated: boolean
@@ -37,7 +37,11 @@ export const TeacherSchema = new mongoose.Schema({
     type: String,
     select: false
   },
-  jwtToken: String,
+  role: {
+    type: String,
+    default: "teacher",
+    required: true,
+  },
   phoneNumber: {
     type: String,
     required: true,

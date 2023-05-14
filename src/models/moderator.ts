@@ -6,7 +6,7 @@ export interface IModerator extends mongoose.Document {
   lastName: string
   email: string
   password?: string
-  jwt?: String
+  role: string
 }
 
 export const ModeratorSchema = new mongoose.Schema({
@@ -27,7 +27,11 @@ export const ModeratorSchema = new mongoose.Schema({
     type: String,
     select: false
   },
-  jwtToken: String,
+  role: {
+    type: String,
+    default: "moderator",
+    required: true,
+  },
 })
 
 export type Moderator = InferSchemaType<typeof ModeratorSchema>;
