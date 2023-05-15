@@ -13,6 +13,7 @@ import registerController from "./controllers/registerController";
 import studentController from "./controllers/studentController";
 import moderatorController from "./controllers/moderatorController";
 import teacherController from "./controllers/teacherController";
+import generateAuthMiddleware from './middlewares/authMiddleware';
 
 const app = express()
 
@@ -28,7 +29,7 @@ app.get('/', (req, res) => {
 app.use(bodyParser.json())
 app.use(requestLogger)
 app.use(cookieParser())
-app.use(jwt.init(configService.JWT_SECRET ?? "None", { cookies: false, stales: 3600000}))
+app.use(jwt.init(configService.JWT_SECRET ?? "None", { stales: 3600000}))
 
 app.use('/login', authController)
 app.use('/register',registerController)

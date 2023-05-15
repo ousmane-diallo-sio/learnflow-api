@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { generateToken } from "../services/authService";
 import studentRepository from "../repositories/studentRepository";
 import managerRepository from "../repositories/managerRepository";
 import moderatorRepository from "../repositories/moderatorRepository";
@@ -21,11 +20,7 @@ authController.post("/manager", async (req, res) => {
         res.status(401).send({ status: 401, message: "Wrong email or password" })
         return
       }
-      const token = generateToken({ email: manager.email, role: manager.role }, res.jwt)
-      return res.cookie("access_token", token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-      }).status(200).send(JSON.stringify("Successfully authenticated"))
+      return res.status(200).send(JSON.stringify("Successfully authenticated"))
     } catch(e) {
       console.error(e)
       res.status(500).send(JSON.stringify("An error occured"))
@@ -41,11 +36,7 @@ authController.post("/moderator", async (req, res) => {
         res.status(401).send({ status: 401, message: "Wrong email or password" })
         return
       }
-      const token = generateToken({ email: moderator.email, role: moderator.role }, res.jwt)
-      return res.cookie("access_token", token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-      }).status(200).send(JSON.stringify("Successfully authenticated"))
+      return res.status(200).send(JSON.stringify("Successfully authenticated"))
     } catch(e) {
       console.error(e)
       res.status(500).send(JSON.stringify("An error occured"))
@@ -61,11 +52,7 @@ authController.post("/student", async (req, res) => {
         res.status(401).send({ status: 401, message: "Wrong email or password" })
         return
       }
-      const token = generateToken({ email: student.email, role: student.role }, res.jwt)
-      return res.cookie("access_token", token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-      }).status(200).send(JSON.stringify("Successfully authenticated"))
+      return res.status(200).send(JSON.stringify("Successfully authenticated"))
     } catch(e) {
       console.error(e)
       res.status(500).send(JSON.stringify("An error occured"))
@@ -81,11 +68,7 @@ authController.post("/teacher", async (req, res) => {
         res.status(401).send({ status: 401, message: "Wrong email or password" })
         return
       }
-      const token = generateToken({ email: teacher.email, role: teacher.role }, res.jwt)
-      return res.cookie("access_token", token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-      }).status(200).send(JSON.stringify("Successfully authenticated"))
+      return res.status(200).send(JSON.stringify("Successfully authenticated"))
     } catch(e) {
       console.error(e)
       res.status(500).send(JSON.stringify("An error occured"))
