@@ -31,7 +31,7 @@ app.use(requestLogger)
 app.use(cookieParser())
 app.use(jwt.init(configService.JWT_SECRET ?? "None", { stales: 3600000}))
 
-app.use('/login', authController)
+app.use('/auth', authController)
 app.use('/register',registerController)
 
 app.use('/managers', managerController)

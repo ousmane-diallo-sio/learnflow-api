@@ -8,10 +8,11 @@ import { IModerator } from '../models/moderator';
 import { IStudent } from '../models/student';
 import { ITeacher } from '../models/teacher';
 import { comparePassword } from '../utils/helpers';
+import jwt from 'jwt-express'
 
 const authController = Router();
 
-authController.post("/manager", async (req, res) => {
+authController.post("/login/manager", async (req, res) => {
     const managerData = req.body as IManager
     try {
       const manager = await managerRepository.getOneByEmailWithPassword(req.body.email)
@@ -20,14 +21,14 @@ authController.post("/manager", async (req, res) => {
         res.status(401).send({ status: 401, message: "Wrong email or password" })
         return
       }
-      return res.status(200).send(JSON.stringify("Successfully authenticated"))
+      return res.status(200).send(JSON.stringify("Successfully logged in"))
     } catch(e) {
       console.error(e)
       res.status(500).send(JSON.stringify("An error occured"))
     }
 })
 
-authController.post("/moderator", async (req, res) => {
+authController.post("/login/moderator", async (req, res) => {
     const moderatorData = req.body as IModerator
     try {
       const moderator = await moderatorRepository.getOneByEmailWithPassword(req.body.email)
@@ -36,14 +37,14 @@ authController.post("/moderator", async (req, res) => {
         res.status(401).send({ status: 401, message: "Wrong email or password" })
         return
       }
-      return res.status(200).send(JSON.stringify("Successfully authenticated"))
+      return res.status(200).send(JSON.stringify("Successfully logged in"))
     } catch(e) {
       console.error(e)
       res.status(500).send(JSON.stringify("An error occured"))
     }
 })
 
-authController.post("/student", async (req, res) => {
+authController.post("/login/student", async (req, res) => {
     const studentData = req.body as IStudent
     try {
       const student = await studentRepository.getOneByEmailWithPassword(req.body.email)
@@ -52,14 +53,14 @@ authController.post("/student", async (req, res) => {
         res.status(401).send({ status: 401, message: "Wrong email or password" })
         return
       }
-      return res.status(200).send(JSON.stringify("Successfully authenticated"))
+      return res.status(200).send(JSON.stringify("Successfully logged in"))
     } catch(e) {
       console.error(e)
       res.status(500).send(JSON.stringify("An error occured"))
     }
 })
 
-authController.post("/teacher", async (req, res) => {
+authController.post("/login/teacher", async (req, res) => {
     const teacherData = req.body as ITeacher
     try {
       const teacher = await teacherRepository.getOneByEmailWithPassword(req.body.email)
@@ -68,11 +69,21 @@ authController.post("/teacher", async (req, res) => {
         res.status(401).send({ status: 401, message: "Wrong email or password" })
         return
       }
-      return res.status(200).send(JSON.stringify("Successfully authenticated"))
+      return res.status(200).send(JSON.stringify("Successfully logged in"))
     } catch(e) {
       console.error(e)
       res.status(500).send(JSON.stringify("An error occured"))
     }
+})
+
+authController.post("/logout", async (_, res) => {
+  try {
+    jwt.clear()
+    return res.status(200).send(JSON.stringify("Successfully logged out"))
+  } catch(e) {
+    console.error(e)
+    res.status(500).send(JSON.stringify("An error occured"))
+  }
 })
 
 export default authController;
