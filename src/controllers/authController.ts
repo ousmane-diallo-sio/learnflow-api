@@ -20,8 +20,8 @@ authController.post("/login/manager", async (req, res) => {
       if (manager) {
         let passwordComparision = await comparePassword(managerData.password as string, manager.password!)
         if (passwordComparision) {
-          generateToken({ email: manager.email, role: manager.role }, res.jwt)
-          return res.status(200).send(JSON.stringify("Successfully logged in"))
+          let token = generateToken({ email: manager.email, role: manager.role }, res.jwt)
+          return res.status(200).send(token)
         }
       }
       res.status(401).send({ status: 401, message: "Wrong email or password" })
@@ -39,8 +39,8 @@ authController.post("/login/moderator", async (req, res) => {
       if (moderator) {
         let passwordComparision = await comparePassword(moderatorData.password as string, moderator.password!)
         if (passwordComparision) {
-          generateToken({ email: moderator.email, role: moderator.role }, res.jwt)
-          return res.status(200).send(JSON.stringify("Successfully logged in"))
+          let token = generateToken({ email: moderator.email, role: moderator.role }, res.jwt)
+          return res.status(200).send(token)
         }
       }
       res.status(401).send({ status: 401, message: "Wrong email or password" })
@@ -58,8 +58,8 @@ authController.post("/login/student", async (req, res) => {
       if (student) {
         let passwordComparision = await comparePassword(studentData.password as string, student.password!)
         if (passwordComparision) {
-          generateToken({ email: student.email, role: student.role }, res.jwt)
-          return res.status(200).send(JSON.stringify("Successfully logged in"))
+          let token = generateToken({ email: student.email, role: student.role }, res.jwt)
+          return res.status(200).send(token)
         }
       }
       res.status(401).send({ status: 401, message: "Wrong email or password" })
@@ -77,8 +77,8 @@ authController.post("/login/teacher", async (req, res) => {
       if (teacher) {
         let passwordComparision = await comparePassword(teacherData.password as string, teacher.password!)
         if (passwordComparision) {
-          generateToken({ email: teacher.email, role: teacher.role }, res.jwt)
-          return res.status(200).send(JSON.stringify("Successfully logged in"))
+          let token = generateToken({ email: teacher.email, role: teacher.role }, res.jwt)
+          return res.status(200).send(token)
         }
       }
       res.status(401).send({ status: 401, message: "Wrong email or password" })

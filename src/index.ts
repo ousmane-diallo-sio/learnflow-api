@@ -29,7 +29,7 @@ app.get('/', (req, res) => {
 app.use(bodyParser.json())
 app.use(requestLogger)
 app.use(cookieParser())
-app.use(jwt.init(configService.JWT_SECRET ?? "None", { stales: 3600000}))
+app.use(jwt.init(configService.JWT_SECRET, { cookies: false, stales: 3600000}))
 
 app.use('/auth', authController)
 app.use('/register',registerController)
