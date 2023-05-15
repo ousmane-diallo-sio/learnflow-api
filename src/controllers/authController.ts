@@ -9,6 +9,7 @@ import { IStudent } from '../models/student';
 import { ITeacher } from '../models/teacher';
 import { comparePassword } from '../utils/helpers';
 import jwt from 'jwt-express'
+import { generateToken } from "../services/authService";
 
 const authController = Router();
 
@@ -21,6 +22,7 @@ authController.post("/login/manager", async (req, res) => {
         res.status(401).send({ status: 401, message: "Wrong email or password" })
         return
       }
+      generateToken({ email: manager.email, role: manager.role }, res.jwt)
       return res.status(200).send(JSON.stringify("Successfully logged in"))
     } catch(e) {
       console.error(e)
@@ -37,6 +39,7 @@ authController.post("/login/moderator", async (req, res) => {
         res.status(401).send({ status: 401, message: "Wrong email or password" })
         return
       }
+      generateToken({ email: moderator.email, role: moderator.role }, res.jwt)
       return res.status(200).send(JSON.stringify("Successfully logged in"))
     } catch(e) {
       console.error(e)
@@ -53,6 +56,7 @@ authController.post("/login/student", async (req, res) => {
         res.status(401).send({ status: 401, message: "Wrong email or password" })
         return
       }
+      generateToken({ email: student.email, role: student.role }, res.jwt)
       return res.status(200).send(JSON.stringify("Successfully logged in"))
     } catch(e) {
       console.error(e)
@@ -69,6 +73,7 @@ authController.post("/login/teacher", async (req, res) => {
         res.status(401).send({ status: 401, message: "Wrong email or password" })
         return
       }
+      generateToken({ email: teacher.email, role: teacher.role }, res.jwt)
       return res.status(200).send(JSON.stringify("Successfully logged in"))
     } catch(e) {
       console.error(e)
