@@ -15,16 +15,4 @@ moderatorController.get('/', async (_, res) => {
   }
 })
 
-moderatorController.post('/', async (req, res) => {
-  const moderateurData = req.body as IModerator
-  try {
-    const moderateur = await ModeratorModel.create(moderateurData)
-    res.contentType('application/json')
-    res.status(200).send(JSON.stringify(moderateur))
-  } catch(e) {
-    console.error(e)
-    res.status(500).send(JSON.stringify("An error occured"))
-  }
-})
-
 export default moderatorController

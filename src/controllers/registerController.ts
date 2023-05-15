@@ -3,8 +3,50 @@ import { Address } from "../models/address";
 import { IStudent, StudentModel } from "../models/student";
 import { ITeacher, TeacherModel } from "../models/teacher";
 import { hashPassword } from "../utils/helpers";
+import { IManager, ManagerModel } from "../models/manager";
+import { IModerator, ModeratorModel } from "../models/moderator";
 
 const registerController = Router()
+
+registerController.post('/manager', async (req, res) => {
+  const managerData = req.body as IManager
+  const nbDuplicates = await ManagerModel.find({ email: managerData.email }).countDocuments()
+  if (nbDuplicates > 0) {
+    res.status(400).send(JSON.stringify('Cet email est déjà lié à un compte'))
+    return
+  }
+  const hashedPassword = await hashPassword(managerData.password as string)
+  managerData.password = hashedPassword
+  try {
+    const manager = await ManagerModel.create(managerData)
+    manager.password = undefined
+    res.contentType('application/json')
+    res.status(200).send(JSON.stringify(manager))
+  } catch(e) {
+    console.error(e)
+    res.status(500).send(JSON.stringify("An error occured"))
+  }
+})
+
+registerController.post('/moderator', async (req, res) => {
+  const moderatorData = req.body as IModerator
+  const nbDuplicates = await ModeratorModel.find({ email: moderatorData.email }).countDocuments()
+  if (nbDuplicates > 0) {
+    res.status(400).send(JSON.stringify('Cet email est déjà lié à un compte'))
+    return
+  }
+  const hashedPassword = await hashPassword(moderatorData.password as string)
+  moderatorData.password = hashedPassword
+  try {
+    const moderator = await ModeratorModel.create(moderatorData)
+    moderator.password = undefined
+    res.contentType('application/json')
+    res.status(200).send(JSON.stringify(moderator))
+  } catch(e) {
+    console.error(e)
+    res.status(500).send(JSON.stringify("An error occured"))
+  }
+})
 
 registerController.post('/student', async (req, res) => {
   const studentData = req.body as IStudent

@@ -15,16 +15,4 @@ managerController.get('/', async (_, res) => {
   }
 })
 
-managerController.post('/', async (req, res) => {
-  const managerData = req.body as IManager
-  try {
-    const manager = await ManagerModel.create(managerData)
-    res.contentType('application/json')
-    res.status(200).send(JSON.stringify(manager))
-  } catch(e) {
-    console.error(e)
-    res.status(500).send(JSON.stringify("An error occured"))
-  }
-})
-
 export default managerController
