@@ -5,8 +5,8 @@ export interface IManager extends mongoose.Document {
   firstName: string
   lastName: string
   email: string
-  password?: { salt: String, hashedPassword: String } | string
-  jwtToken?: String
+  password?: string
+  role: string
 }
 
 export const ManagerSchema = new mongoose.Schema({
@@ -24,20 +24,15 @@ export const ManagerSchema = new mongoose.Schema({
     unique: true,
   },
   password: {
-    type: {
-      salt: {
-        type: String,
-        required: true
-      },
-      hashedPassword: {
-        type: String,
-        required: true
-      }
-    },
+    type: String,
     select: false
   },
-  jwtToken: String,
+  role: {
+    type: String,
+    default: "manager",
+    required: true,
+  },
 })
 
 export type Manager = InferSchemaType<typeof ManagerSchema>;
-export const ManagerModel = mongoose.model('Manager', ManagerSchema)
+export const ManagerModel = mongoose.model<IManager>('Manager', ManagerSchema)

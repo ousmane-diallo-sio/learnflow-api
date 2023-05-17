@@ -12,7 +12,7 @@ const TeacherValidationSchema = Joi.object({
   profilePictureUrl: Joi.string().min(1).max(2048).required(),
   isValidated: Joi.boolean().required(),
   address: AddressValidationSchema.required(),
-  documents: Joi.array().items(DocumentValidationSchema.required()),
+  documents: Joi.array().items(DocumentValidationSchema.optional()).required(),
   password: PasswordValidationSchema.required()
 })
 

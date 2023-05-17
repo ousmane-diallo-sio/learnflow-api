@@ -6,8 +6,8 @@ export interface IStudent extends mongoose.Document {
   lastName: string
   birthdate: Date
   email: string
-  password?: { salt: String, hashedPassword: String } | string
-  jwtToken?: String
+  password?: string
+  role: string
   phoneNumber: string
   profilePictureUrl: string
   address: IAddress
@@ -32,19 +32,14 @@ export const StudentSchema = new mongoose.Schema({
     unique: true,
   },
   password: {
-    type: {
-      salt: {
-        type: String,
-        required: true
-      },
-      hashedPassword: {
-        type: String,
-        required: true
-      }
-    },
+    type: String,
     select: false
   },
-  jwtToken: String,
+  role: {
+    type: String,
+    default: "student",
+    required: true,
+  },
   phoneNumber: {
     type: String,
     required: true,
@@ -60,4 +55,4 @@ export const StudentSchema = new mongoose.Schema({
 })
 
 export type Student = InferSchemaType<typeof StudentSchema>;
-export const StudentModel = mongoose.model('Student', StudentSchema)
+export const StudentModel = mongoose.model<IStudent>('Student', StudentSchema)

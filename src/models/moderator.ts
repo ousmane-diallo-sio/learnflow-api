@@ -5,8 +5,8 @@ export interface IModerator extends mongoose.Document {
   firstName: string
   lastName: string
   email: string
-  password?: { salt: String, hashedPassword: String } | string
-  jwtToken?: String
+  password?: string
+  role: string
 }
 
 export const ModeratorSchema = new mongoose.Schema({
@@ -24,20 +24,15 @@ export const ModeratorSchema = new mongoose.Schema({
     unique: true,
   },
   password: {
-    type: {
-      salt: {
-        type: String,
-        required: true
-      },
-      hashedPassword: {
-        type: String,
-        required: true
-      }
-    },
+    type: String,
     select: false
   },
-  jwtToken: String,
+  role: {
+    type: String,
+    default: "moderator",
+    required: true,
+  },
 })
 
 export type Moderator = InferSchemaType<typeof ModeratorSchema>;
-export const ModeratorModel = mongoose.model('Moderator', ModeratorSchema)
+export const ModeratorModel = mongoose.model<IModerator>('Moderator', ModeratorSchema)
