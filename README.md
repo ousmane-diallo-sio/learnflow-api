@@ -34,6 +34,9 @@ $ cd learnflow-api
 Ensuite, créez un fichier `.env` à la racine du projet et ajoutez-y les informations nécessaires. Exemple :
 
 ```
+# Running on prod or dev
+NODE_ENV=dev
+
 # Mongo service variables
 MONGO_INITDB_ROOT_USERNAME=root
 MONGO_INITDB_ROOT_PASSWORD=root

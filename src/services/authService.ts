@@ -1,6 +1,6 @@
 import {  JWT } from 'jwt-express'
-import AuthDTO from '../dto/auth.dto'
+import jwtPayloadDTO from '../dto/jwtPayload.dto'
 
-export const generateToken = (payload: AuthDTO, jwtMethod: (payload: any) => JWT) => {
+export const generateToken = (payload: jwtPayloadDTO, jwtMethod: (payload: any) => JWT) => {
     return jwtMethod(payload)
 }
