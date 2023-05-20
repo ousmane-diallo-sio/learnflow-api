@@ -47,7 +47,7 @@ authController.post("/login/moderator", async (req, res) => {
     }
 })
 
-authController.post("/login/student", async (req, res) => {
+authController.post("/login/user", async (req, res) => {
     const { email, password }:  { email: string, password: string } = req.body
     try {
       const student = await studentRepository.getOneByEmailWithPassword(email)
@@ -58,17 +58,6 @@ authController.post("/login/student", async (req, res) => {
           return res.status(200).send(token)
         }
       }
-      res.status(401).send({ status: 401, message: "Wrong email or password" })
-      return
-    } catch(e) {
-      console.error(e)
-      res.status(500).send(JSON.stringify("An error occured"))
-    }
-})
-
-authController.post("/login/teacher", async (req, res) => {
-    const { email, password }:  { email: string, password: string } = req.body
-    try {
       const teacher = await teacherRepository.getOneByEmailWithPassword(email)
       if (teacher?.password) {
         const passwordComparision = await comparePassword(password, teacher.password)
