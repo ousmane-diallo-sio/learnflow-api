@@ -6,8 +6,8 @@ export interface ITeacher extends mongoose.Document {
   lastName: string
   birthdate: Date
   email: string
-  password?: { salt: String, hashedPassword: String } | string
-  jwtToken?: String
+  password?: string
+  role: string
   phoneNumber: string
   profilePictureUrl: string
   isValidated: boolean
@@ -34,19 +34,14 @@ export const TeacherSchema = new mongoose.Schema({
     unique: true,
   },
   password: {
-    type: {
-      salt: {
-        type: String,
-        required: true
-      },
-      hashedPassword: {
-        type: String,
-        required: true
-      }
-    },
+    type: String,
     select: false
   },
-  jwtToken: String,
+  role: {
+    type: String,
+    default: "teacher",
+    required: true,
+  },
   phoneNumber: {
     type: String,
     required: true,
@@ -69,4 +64,4 @@ export const TeacherSchema = new mongoose.Schema({
 })
 
 export type Teacher = InferSchemaType<typeof TeacherSchema>;
-export const TeacherModel = mongoose.model('Teacher', TeacherSchema)
+export const TeacherModel = mongoose.model<ITeacher>('Teacher', TeacherSchema)

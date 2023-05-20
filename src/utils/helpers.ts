@@ -1,15 +1,11 @@
-import crypto from 'crypto'
+import bcrypt from "bcrypt";
 
-export const generateSalt = () => { 
-  const rounds = 10
-  return crypto.randomBytes(Math.ceil(rounds / 2)).toString('hex').slice(0, rounds);
+export const hashPassword = async (plaintextPassword: string) => {
+  const hash = await bcrypt.hash(plaintextPassword, 10);
+  return hash
 }
 
-export const hashPassword = (password: string, salt: string) => {
-  const hash = crypto.createHmac('sha512', salt)
-  hash.update(password)
-  const hashedPassword = hash.digest('hex')
-  return hashedPassword
+export const comparePassword = async (plaintextPassword: string, hash: string) => {
+  const passwordComparision = await bcrypt.compare(plaintextPassword, hash);
+  return passwordComparision;
 }
-
-   
