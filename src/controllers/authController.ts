@@ -14,8 +14,8 @@ authController.post("/login/manager", async (req, res) => {
     const loginInformation: loginDTO = req.body
     try {
       const manager = await managerRepository.getOneByEmailWithPassword(loginInformation.email)
-      if (manager) {
-        let passwordComparision = await comparePassword(loginInformation.password, manager.password!)
+      if (manager?.password) {
+        let passwordComparision = await comparePassword(loginInformation.password, manager.password)
         if (passwordComparision) {
           let token = generateToken({ email: manager.email, role: manager.role }, res.jwt)
           return res.status(200).send(token)
@@ -33,8 +33,8 @@ authController.post("/login/moderator", async (req, res) => {
     const loginInformation: loginDTO = req.body
     try {
       const moderator = await moderatorRepository.getOneByEmailWithPassword(loginInformation.email)
-      if (moderator) {
-        let passwordComparision = await comparePassword(loginInformation.password, moderator.password!)
+      if (moderator?.password) {
+        let passwordComparision = await comparePassword(loginInformation.password, moderator.password)
         if (passwordComparision) {
           let token = generateToken({ email: moderator.email, role: moderator.role }, res.jwt)
           return res.status(200).send(token)
@@ -52,8 +52,8 @@ authController.post("/login/student", async (req, res) => {
     const loginInformation: loginDTO = req.body
     try {
       const student = await studentRepository.getOneByEmailWithPassword(loginInformation.email)
-      if (student) {
-        let passwordComparision = await comparePassword(loginInformation.password, student.password!)
+      if (student?.password) {
+        let passwordComparision = await comparePassword(loginInformation.password, student.password)
         if (passwordComparision) {
           let token = generateToken({ email: student.email, role: student.role }, res.jwt)
           return res.status(200).send(token)
@@ -71,8 +71,8 @@ authController.post("/login/teacher", async (req, res) => {
     const loginInformation: loginDTO = req.body
     try {
       const teacher = await teacherRepository.getOneByEmailWithPassword(loginInformation.email)
-      if (teacher) {
-        let passwordComparision = await comparePassword(loginInformation.password, teacher.password!)
+      if (teacher?.password) {
+        let passwordComparision = await comparePassword(loginInformation.password, teacher.password)
         if (passwordComparision) {
           let token = generateToken({ email: teacher.email, role: teacher.role }, res.jwt)
           return res.status(200).send(token)
