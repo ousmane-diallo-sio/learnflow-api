@@ -3,22 +3,19 @@ import studentRepository from "../repositories/studentRepository";
 import managerRepository from "../repositories/managerRepository";
 import moderatorRepository from "../repositories/moderatorRepository";
 import teacherRepository from "../repositories/teacherRepository";
-import { IManager } from '../models/manager';
-import { IModerator } from '../models/moderator';
-import { IStudent } from '../models/student';
-import { ITeacher } from '../models/teacher';
 import { comparePassword } from '../utils/helpers';
 import jwt from 'jwt-express'
 import { generateToken } from "../services/authService";
+import loginDTO from '../dto/login.dto';
 
 const authController = Router();
 
 authController.post("/login/manager", async (req, res) => {
-    const managerData = req.body as IManager
+    const loginInformation: loginDTO = req.body
     try {
-      const manager = await managerRepository.getOneByEmailWithPassword(req.body.email)
+      const manager = await managerRepository.getOneByEmailWithPassword(loginInformation.email)
       if (manager) {
-        let passwordComparision = await comparePassword(managerData.password as string, manager.password!)
+        let passwordComparision = await comparePassword(loginInformation.password, manager.password!)
         if (passwordComparision) {
           let token = generateToken({ email: manager.email, role: manager.role }, res.jwt)
           return res.status(200).send(token)
@@ -33,11 +30,11 @@ authController.post("/login/manager", async (req, res) => {
 })
 
 authController.post("/login/moderator", async (req, res) => {
-    const moderatorData = req.body as IModerator
+    const loginInformation: loginDTO = req.body
     try {
-      const moderator = await moderatorRepository.getOneByEmailWithPassword(req.body.email)
+      const moderator = await moderatorRepository.getOneByEmailWithPassword(loginInformation.email)
       if (moderator) {
-        let passwordComparision = await comparePassword(moderatorData.password as string, moderator.password!)
+        let passwordComparision = await comparePassword(loginInformation.password, moderator.password!)
         if (passwordComparision) {
           let token = generateToken({ email: moderator.email, role: moderator.role }, res.jwt)
           return res.status(200).send(token)
@@ -52,11 +49,11 @@ authController.post("/login/moderator", async (req, res) => {
 })
 
 authController.post("/login/student", async (req, res) => {
-    const studentData = req.body as IStudent
+    const loginInformation: loginDTO = req.body
     try {
-      const student = await studentRepository.getOneByEmailWithPassword(req.body.email)
+      const student = await studentRepository.getOneByEmailWithPassword(loginInformation.email)
       if (student) {
-        let passwordComparision = await comparePassword(studentData.password as string, student.password!)
+        let passwordComparision = await comparePassword(loginInformation.password, student.password!)
         if (passwordComparision) {
           let token = generateToken({ email: student.email, role: student.role }, res.jwt)
           return res.status(200).send(token)
@@ -71,11 +68,11 @@ authController.post("/login/student", async (req, res) => {
 })
 
 authController.post("/login/teacher", async (req, res) => {
-    const teacherData = req.body as ITeacher
+    const loginInformation: loginDTO = req.body
     try {
-      const teacher = await teacherRepository.getOneByEmailWithPassword(req.body.email)
+      const teacher = await teacherRepository.getOneByEmailWithPassword(loginInformation.email)
       if (teacher) {
-        let passwordComparision = await comparePassword(teacherData.password as string, teacher.password!)
+        let passwordComparision = await comparePassword(loginInformation.password, teacher.password!)
         if (passwordComparision) {
           let token = generateToken({ email: teacher.email, role: teacher.role }, res.jwt)
           return res.status(200).send(token)
