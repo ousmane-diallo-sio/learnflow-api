@@ -26,6 +26,9 @@ app.get('/', (req, res) => {
   res.send("Learn Flow API")
 })
 
+var cors = require('cors')
+app.use(cors())
+
 app.use(bodyParser.json())
 app.use(requestLogger)
 app.use(cookieParser())
