@@ -14,8 +14,10 @@ import studentController from "./controllers/studentController";
 import moderatorController from "./controllers/moderatorController";
 import teacherController from "./controllers/teacherController";
 import generateAuthMiddleware from './middlewares/authMiddleware';
+import cors from "cors";
 
 const app = express()
+app.use(cors())
 
 mongoose.connect(`mongodb://${envUtils.MONGO_USER}:${envUtils.MONGO_PASSWORD}@${envUtils.MONGO_HOST}:${envUtils.MONGO_PORT}/${envUtils.MONGO_DB}`)
   .then(() => logConfirmation("Connected to MongoDB"))
@@ -26,8 +28,6 @@ app.get('/', (req, res) => {
   res.send("Learn Flow API")
 })
 
-var cors = require('cors')
-app.use(cors())
 
 app.use(bodyParser.json())
 app.use(requestLogger)
