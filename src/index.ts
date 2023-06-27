@@ -13,6 +13,7 @@ import registerController from "./controllers/registerController";
 import studentController from "./controllers/studentController";
 import moderatorController from "./controllers/moderatorController";
 import teacherController from "./controllers/teacherController";
+import errorHandlerMiddleware from './middlewares/errorHandlerMiddleware';
 import generateAuthMiddleware from './middlewares/authMiddleware';
 import cors from "cors";
 
@@ -41,6 +42,8 @@ app.use('/managers', managerController)
 app.use('/moderators', moderatorController)
 app.use('/students', studentController)
 app.use('/teachers', teacherController)
+
+app.use(errorHandlerMiddleware)
 
 app.listen(envUtils.PORT, () => {
   logConfirmation(`Server running at http://${envUtils.HOST}:${envUtils.PORT}/`)

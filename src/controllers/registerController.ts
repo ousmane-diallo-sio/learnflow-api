@@ -7,6 +7,10 @@ import { IManager, ManagerModel } from "../models/manager";
 import { IModerator, ModeratorModel } from "../models/moderator";
 import NotFoundError from "../errors/NotFoundError";
 import ValidationError from "../errors/ValidationError";
+import StudentValidationSchema from "../validators/students";
+import TeacherValidationSchema from "../validators/teacher";
+import ModeratorValidationSchema from "../validators/moderator";
+import ManagerValidationSchema from "../validators/manager";
 
 const registerController = Router()
 
@@ -25,16 +29,18 @@ registerController.post('/manager', async (req, res) => {
     res.contentType('application/json')
     res.status(200).send(JSON.stringify(manager))
   } catch(e) {
-   if (e instanceof NotFoundError) {
+    const validationResult = ManagerValidationSchema.validate(managerData)
+    if (e instanceof NotFoundError) {
       res.status(404).send({
           status: 404,
           message: "Not found!"
       })
-    } else if (e instanceof ValidationError) {
-      res.status(400).send({
+    } else if (validationResult.error){
+        console.log(validationResult.error.details)
+        res.status(400).send({
           status: 400,
           message: "Bad Request",
-          details: e.errorDetails
+          details: validationResult.error.details
       })
     } else {
       res.status(500).send({
@@ -60,23 +66,25 @@ registerController.post('/moderator', async (req, res) => {
     res.contentType('application/json')
     res.status(200).send(JSON.stringify(moderator))
   } catch(e) {
-   if (e instanceof NotFoundError) {
-                res.status(404).send({
-                    status: 404,
-                    message: "Not found!"
-                })
-            } else if (e instanceof ValidationError) {
-                res.status(400).send({
-                    status: 400,
-                    message: "Bad Request",
-                    details: e.errorDetails
-                })
-            } else {
-                res.status(500).send({
-                    status: 500,
-                    message: "Internal Error",
-                })
-            }
+    const validationResult = ModeratorValidationSchema.validate(moderatorData)
+    if (e instanceof NotFoundError) {
+      res.status(404).send({
+          status: 404,
+          message: "Not found!"
+      })
+    } else if (validationResult.error){
+        console.log(validationResult.error.details)
+        res.status(400).send({
+          status: 400,
+          message: "Bad Request",
+          details: validationResult.error.details
+      })
+    } else {
+      res.status(500).send({
+          status: 500,
+          message: "Internal Error",
+      })
+    }
   }
 })
 
@@ -96,23 +104,25 @@ registerController.post('/student', async (req, res) => {
     res.contentType('application/json')
     res.status(200).send(JSON.stringify(student))
   } catch(e) {
-   if (e instanceof NotFoundError) {
-                res.status(404).send({
-                    status: 404,
-                    message: "Not found!"
-                })
-            } else if (e instanceof ValidationError) {
-                res.status(400).send({
-                    status: 400,
-                    message: "Bad Request",
-                    details: e.errorDetails
-                })
-            } else {
-                res.status(500).send({
-                    status: 500,
-                    message: "Internal Error",
-                })
-            }
+    const validationResult = StudentValidationSchema.validate(studentData)
+    if (e instanceof NotFoundError) {
+      res.status(404).send({
+          status: 404,
+          message: "Not found!"
+      })
+    } else if (validationResult.error){
+        console.log(validationResult.error.details)
+        res.status(400).send({
+          status: 400,
+          message: "Bad Request",
+          details: validationResult.error.details
+      })
+    } else {
+      res.status(500).send({
+          status: 500,
+          message: "Internal Error",
+      })
+    }
   }
 })
 
@@ -132,23 +142,25 @@ registerController.post('/teacher', async (req, res) => {
     res.contentType('application/json')
     res.status(200).send(JSON.stringify(teacher))
   } catch(e) {
-   if (e instanceof NotFoundError) {
-                res.status(404).send({
-                    status: 404,
-                    message: "Not found!"
-                })
-            } else if (e instanceof ValidationError) {
-                res.status(400).send({
-                    status: 400,
-                    message: "Bad Request",
-                    details: e.errorDetails
-                })
-            } else {
-                res.status(500).send({
-                    status: 500,
-                    message: "Internal Error",
-                })
-            }
+    const validationResult = TeacherValidationSchema.validate(teacherData)
+    if (e instanceof NotFoundError) {
+      res.status(404).send({
+          status: 404,
+          message: "Not found!"
+      })
+    } else if (validationResult.error){
+        console.log(validationResult.error.details)
+        res.status(400).send({
+          status: 400,
+          message: "Bad Request",
+          details: validationResult.error.details
+      })
+    } else {
+      res.status(500).send({
+          status: 500,
+          message: "Internal Error",
+      })
+    }
   }
 })
 
