@@ -6,12 +6,10 @@ import { hashPassword } from "../utils/helpers";
 import { IManager, ManagerModel } from "../models/manager";
 import { IModerator, ModeratorModel } from "../models/moderator";
 import NotFoundError from "../errors/NotFoundError";
-import ValidationError from "../errors/ValidationError";
 import StudentValidationSchema from "../validators/students";
 import TeacherValidationSchema from "../validators/teacher";
 import ModeratorValidationSchema from "../validators/moderator";
 import ManagerValidationSchema from "../validators/manager";
-import Joi from "joi";
 
 const registerController = Router()
 
