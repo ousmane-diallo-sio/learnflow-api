@@ -103,6 +103,7 @@ registerController.post('/student', async (req, res) => {
       message: "Bad Request",
       details: validationResult.error.details
     })
+    return
   }
 
   const hashedPassword = await hashPassword(studentData.password as string)
