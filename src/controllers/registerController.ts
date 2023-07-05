@@ -6,7 +6,6 @@ import { hashPassword } from "../utils/helpers";
 import { IManager, ManagerModel } from "../models/manager";
 import { IModerator, ModeratorModel } from "../models/moderator";
 import NotFoundError from "../errors/NotFoundError";
-import ValidationError from "../errors/ValidationError";
 import StudentValidationSchema from "../validators/students";
 import TeacherValidationSchema from "../validators/teacher";
 import ModeratorValidationSchema from "../validators/moderator";
@@ -95,8 +94,21 @@ registerController.post('/student', async (req, res) => {
     res.status(400).send(JSON.stringify('Cet email est déjà lié à un compte'))
     return
   }
+
+  const validationResult = StudentValidationSchema.validate(studentData)
+  if (validationResult.error){
+    console.error(validationResult.error.details)
+    res.status(400).send({
+      status: 400,
+      message: "Bad Request",
+      details: validationResult.error.details
+    })
+    return
+  }
+
   const hashedPassword = await hashPassword(studentData.password as string)
   studentData.password = hashedPassword
+ 
   try {
     const address = await Address.create(studentData.address)
     const student = await StudentModel.create({...studentData, address: address._id})
@@ -104,18 +116,10 @@ registerController.post('/student', async (req, res) => {
     res.contentType('application/json')
     res.status(200).send(JSON.stringify(student))
   } catch(e) {
-    const validationResult = StudentValidationSchema.validate(studentData)
     if (e instanceof NotFoundError) {
       res.status(404).send({
           status: 404,
           message: "Not found!"
-      })
-    } else if (validationResult.error){
-        console.log(validationResult.error.details)
-        res.status(400).send({
-          status: 400,
-          message: "Bad Request",
-          details: validationResult.error.details
       })
     } else {
       res.status(500).send({
