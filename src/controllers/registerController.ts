@@ -2,7 +2,7 @@ import { Router } from "express";
 import { Address } from "../models/address";
 import { IStudent, StudentModel } from "../models/student";
 import { ITeacher, TeacherModel } from "../models/teacher";
-import { hashPassword } from "../utils/helpers";
+import { hashPassword, learnflowResponse } from "../lib/helpersService";
 import { IManager, ManagerModel } from "../models/manager";
 import { IModerator, ModeratorModel } from "../models/moderator";
 import NotFoundError from "../errors/NotFoundError";
@@ -91,18 +91,24 @@ registerController.post('/student', async (req, res) => {
   const studentData = req.body as IStudent
   const nbDuplicates = await StudentModel.find({ email: studentData.email }).countDocuments()
   if (nbDuplicates > 0) {
-    res.status(400).send(JSON.stringify('Cet email est déjà lié à un compte'))
+    res.status(400).send(
+      learnflowResponse({
+        status: 400,
+        error: 'Cet email est déjà lié à un compte',
+      })
+    )
     return
   }
 
   const validationResult = StudentValidationSchema.validate(studentData)
   if (validationResult.error){
     console.error(validationResult.error.details)
-    res.status(400).send({
-      status: 400,
-      message: "Bad Request",
-      details: validationResult.error.details
-    })
+    res.status(400).send(
+      learnflowResponse({
+        status: 400,
+        error: validationResult.error.details[0].message,
+      })
+    )
     return
   }
 
@@ -113,20 +119,20 @@ registerController.post('/student', async (req, res) => {
     const address = await Address.create(studentData.address)
     const student = await StudentModel.create({...studentData, address: address._id})
     student.password = undefined
-    res.contentType('application/json')
-    res.status(200).send(JSON.stringify(student))
+
+    res.status(200).send(
+      learnflowResponse({
+        status: 201,
+        data: student,
+        // jwt: TODO
+      })
+    )
   } catch(e) {
-    if (e instanceof NotFoundError) {
-      res.status(404).send({
-          status: 404,
-          message: "Not found!"
-      })
-    } else {
-      res.status(500).send({
-          status: 500,
-          message: "Internal Error",
-      })
-    }
+    console.error(e)
+    res.status(500).send({
+      status: 500,
+      message: "Internal Server Error",
+    })
   }
 })
 

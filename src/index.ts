@@ -1,21 +1,19 @@
 import express from "express";
 import mongoose from 'mongoose';
-import envUtils from "./utils/envUtils";
-import { logConfirmation } from "./utils/logUtils";
+import envUtils from "./lib/envService";
+import { logConfirmation } from "./lib/logService";
 import bodyParser from "body-parser";
-import { requestLogger } from "./middlewares/logMiddleware";
 import jwt from "jwt-express"
 import cookieParser from "cookie-parser";
-import configService from "./services/configService";
 import authController from "./controllers/authController";
 import managerController from "./controllers/managerController";
 import registerController from "./controllers/registerController";
 import studentController from "./controllers/studentController";
 import moderatorController from "./controllers/moderatorController";
 import teacherController from "./controllers/teacherController";
-import errorHandlerMiddleware from './middlewares/errorHandlerMiddleware';
-import generateAuthMiddleware from './middlewares/authMiddleware';
 import cors from "cors";
+import { errorHandler, requestLogger, setResContentType } from "./lib/middlewareService";
+import configService from "./lib/configService";
 
 const app = express()
 app.use(cors())
@@ -35,6 +33,8 @@ app.use(requestLogger)
 app.use(cookieParser())
 app.use(jwt.init(configService.JWT_SECRET, { cookies: false, stales: 3600000}))
 
+app.use(setResContentType)
+
 app.use('/auth', authController)
 app.use('/register',registerController)
 
@@ -43,7 +43,7 @@ app.use('/moderators', moderatorController)
 app.use('/students', studentController)
 app.use('/teachers', teacherController)
 
-app.use(errorHandlerMiddleware)
+app.use(errorHandler)
 
 app.listen(envUtils.PORT, () => {
   logConfirmation(`Server running at http://${envUtils.HOST}:${envUtils.PORT}/`)
