@@ -3,7 +3,7 @@ import studentRepository from "../repositories/studentRepository";
 import managerRepository from "../repositories/managerRepository";
 import moderatorRepository from "../repositories/moderatorRepository";
 import teacherRepository from "../repositories/teacherRepository";
-import { comparePassword } from '../lib/helpersService';
+import { comparePassword, learnflowResponse } from '../lib/helpersService';
 import jwt from 'jwt-express'
 import { generateToken } from "../lib/authService";
 import NotFoundError from "../errors/NotFoundError";
@@ -50,33 +50,49 @@ authController.post("/login/moderator", async (req, res) => {
 })
 
 authController.post("/login/user", async (req, res) => {
-    const { email, password, userType }:  { email: string, password: string, userType: 'student' | 'teacher' } = req.body
-    try {
-      if (userType === 'student') {
-        const student = await studentRepository.getOneByEmailWithPassword(email)
-        if (student?.password) {
-          const passwordComparision = await comparePassword(password, student.password)
-          if (passwordComparision) {
-            const token = generateToken({ email: student.email, role: student.role }, res.jwt)
-            return res.status(200).send(token)
-          }
-        }
-      } else if (userType === 'teacher') {
-        const teacher = await teacherRepository.getOneByEmailWithPassword(email)
-        if (teacher?.password) {
-          const passwordComparision = await comparePassword(password, teacher.password)
-          if (passwordComparision) {
-            const token = generateToken({ email: teacher.email, role: teacher.role }, res.jwt)
-            return res.status(200).send(token)
-          }
-        }
-      } else {
-        // userType isn't student nor teacher
-        res.status(400).send({})
+  const { email, password }:  { email: string, password: string } = req.body
+
+  try {
+    const student = await studentRepository.getOneByEmailWithPassword(email)
+    if (student?.password) {
+      const passwordComparision = await comparePassword(password, student.password)
+      if (passwordComparision) {
+        const token = generateToken({ email: student.email, role: student.role }, res.jwt)
+        student.password = undefined
+
+        return res.status(200).send(
+          learnflowResponse({
+            status: 200,
+            jwt: token,
+            data: student
+          })
+        )
       }
-      res.status(401).send({ status: 401, message: "Wrong email or password" })
-      return
-    } catch(e) {
+    } else {
+      const teacher = await teacherRepository.getOneByEmailWithPassword(email)
+      if (teacher?.password) {
+        const passwordComparision = await comparePassword(password, teacher.password)
+        if (passwordComparision) {
+          const token = generateToken({ email: teacher.email, role: teacher.role }, res.jwt)
+          return res.status(200).send(
+            learnflowResponse({
+              status: 200,
+              jwt: token,
+              data: teacher
+            })
+          )
+        }
+      }
+    }
+    
+    res.status(401).send(
+      learnflowResponse({
+        status: 401,
+        error: "L'email ou le mot de passe est incorrect"
+      })
+    )
+    return
+  } catch(e) {
       console.error(e)
       res.status(500).send(JSON.stringify("An error occured"))
     }
