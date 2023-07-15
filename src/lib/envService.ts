@@ -1,5 +1,5 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-require('dotenv').config()
+import * as dotenv from 'dotenv'
+dotenv.config()
 
 const envUtils = {
   HOST: process.env.HOST ?? "127.0.0.1",
