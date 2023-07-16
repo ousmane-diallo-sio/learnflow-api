@@ -12,19 +12,34 @@ import ValidationError from "../errors/ValidationError";
 const authController = Router();
 
 authController.post("/login/manager", async (req, res) => {
-    const { email, password }:  { email: string, password: string } = req.body
-    try {
-      const manager = await managerRepository.getOneByEmailWithPassword(email)
-      if (manager?.password) {
-        const passwordComparision = await comparePassword(password, manager.password)
-        if (passwordComparision) {
-          const token = generateToken({ email: manager.email, role: manager.role }, res.jwt)
-          return res.status(200).send(token)
-        }
+  const { email, password }:  { email: string, password: string } = req.body
+
+  try {
+    const manager = await managerRepository.getOneByEmailWithPassword(email)
+    if (manager?.password) {
+      const passwordComparision = await comparePassword(password, manager.password)
+      if (passwordComparision) {
+        const token = generateToken({ email: manager.email, role: manager.role }, res.jwt)
+        manager.password = undefined
+
+        return res.status(200).send(
+          learnflowResponse({
+            status: 200,
+            jwt: token,
+            data: manager
+          })
+        )
       }
-      res.status(401).send({ status: 401, message: "Wrong email or password" })
-      return
-    } catch(e) {
+    }
+    
+    res.status(401).send(
+      learnflowResponse({
+        status: 401,
+        error: "L'email ou le mot de passe est incorrect"
+      })
+    )
+    return
+  } catch(e) {
       console.error(e)
       res.status(500).send(JSON.stringify("An error occured"))
     }
