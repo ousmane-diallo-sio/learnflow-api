@@ -12,13 +12,16 @@ import studentController from "./controllers/studentController";
 import moderatorController from "./controllers/moderatorController";
 import teacherController from "./controllers/teacherController";
 import cors from "cors";
-import { errorHandler, requestLogger, setResContentType } from "./lib/middlewareService";
+import { errorHandler, maxFileSizeErrorHandler, requestLogger, setResContentType } from "./lib/middlewareService";
 import configService from "./lib/configService";
+import documentsController from "./controllers/documentsController";
 
 const app = express()
 app.use(cors())
 
-mongoose.connect(`mongodb://${envUtils.MONGO_USER}:${envUtils.MONGO_PASSWORD}@${envUtils.MONGO_HOST}:${envUtils.MONGO_PORT}/${envUtils.MONGO_DB}`)
+const mongoConnectionString = `mongodb://${envUtils.MONGO_USER}:${envUtils.MONGO_PASSWORD}@${envUtils.MONGO_HOST}:${envUtils.MONGO_PORT}/${envUtils.MONGO_DB}`
+
+mongoose.connect(mongoConnectionString)
   .then(() => logConfirmation("Connected to MongoDB"))
   .catch((e) => console.error(e))
 
@@ -34,6 +37,7 @@ app.use(cookieParser())
 app.use(jwt.init(configService.JWT_SECRET, { cookies: false, stales: 3600000}))
 
 app.use(setResContentType)
+app.use(maxFileSizeErrorHandler)
 
 app.use('/auth', authController)
 app.use('/register',registerController)
@@ -42,6 +46,7 @@ app.use('/managers', managerController)
 app.use('/moderators', moderatorController)
 app.use('/students', studentController)
 app.use('/teachers', teacherController)
+app.use('/documents', documentsController)
 
 app.use(errorHandler)
 

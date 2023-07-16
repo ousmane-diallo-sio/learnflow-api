@@ -1,20 +1,31 @@
-import mongoose from "mongoose";
+import mongoose, { InferSchemaType } from "mongoose";
 
 export interface IDocument extends mongoose.Document {
-  uploadUrl: string
-  documentType: DocumentType
+  name: string
+  desc: string
+  document: {
+    data: Buffer,
+    contentType: string,
+  }
 }
 
 export const DocumentSchema = new mongoose.Schema({
-  uploadUrl: {
-      type: String,
-      required: true,
-      unique: true,
+  name: {
+    type: String,
+    required: true,
   },
-  documentType: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'DocumentType',
+  desc: {
+    type: String,
+    required: false,
   },
+  document: {
+    type: {
+      data: Buffer,
+      contentType: String,
+    },
+    required: true,
+  }
 })
 
-export const Document = mongoose.model('Document', DocumentSchema)
+export type Document = InferSchemaType<typeof DocumentSchema>;
+export const DocumentModel = mongoose.model('Document', DocumentSchema)
