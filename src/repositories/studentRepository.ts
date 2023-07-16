@@ -6,15 +6,15 @@ import StudentValidationSchema from '../validators/students';
 export class StudentRepository implements IRepository<IStudent, IStudent> {
 
     async getAll(): Promise<IStudent[]> {
-        return await StudentModel.find();
+        return await StudentModel.find().populate("address");
     }
 
     async getOne(id: string): Promise<IStudent | null> {
-        return await StudentModel.findById(id);
+        return await StudentModel.findById(id).populate("address");
     }
 
     async getOneByEmail(email: string): Promise<IStudent | null> {
-        const student = await StudentModel.findOne({ email });
+        const student = await StudentModel.findOne({ email }).populate("address");
         return student;
     }
 
