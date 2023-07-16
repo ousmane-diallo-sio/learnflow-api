@@ -48,6 +48,7 @@ const StudentValidationSchema = Joi.object({
       'any.required': 'L\'URL de la photo de profil est obligatoire'
     }),
   address: AddressValidationSchema.required(),
+  schoolLevel: Joi.string().valid("CP", "CE1", "CE2", "CM1", "CM2", "6ème", "5ème", "4ème", "3ème", "2nde", "1ère", "Terminale", "Bac +1", "Bac +2", "Bac +3", "Bac +4", "Bac +5"),
   password: PasswordValidationSchema.required(),
 })
 
