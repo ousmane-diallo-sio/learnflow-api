@@ -53,6 +53,7 @@ export const TeacherSchema = new mongoose.Schema({
   isValidated: {
     type: Boolean,
     required: true,
+    default: false,
   },
   address: {
     type: mongoose.Schema.Types.ObjectId,

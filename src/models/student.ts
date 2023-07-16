@@ -11,6 +11,7 @@ export interface IStudent extends mongoose.Document {
   phoneNumber: string
   profilePictureUrl: string
   address: IAddress
+  schoolLevel?: string
 }
 
 export const StudentSchema = new mongoose.Schema({
@@ -52,6 +53,9 @@ export const StudentSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Address',
   },
+  schoolLevel: {
+    type: String
+  }
 })
 
 export type Student = InferSchemaType<typeof StudentSchema>;
