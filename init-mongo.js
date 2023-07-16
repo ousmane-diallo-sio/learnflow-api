@@ -1,8 +1,8 @@
 db.createUser({
-  user: "admin",
-  pwd: "azerty",
-  roles: [
-    { role: "readWrite", db: "learnflowdb" }
-  ]
+    user: "learnflowuser",
+    pwd: "learnflowpwd",
+    roles: [
+      {role: "readWrite", db: "learnflowdb"}
+    ]
 })
-db.createCollection("users")
+db.createCollection("test"); //MongoDB creates the database when you first store data in that database

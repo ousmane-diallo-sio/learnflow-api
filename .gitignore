@@ -1,6 +1,3 @@
-.DS_Store
-data
-
 # Logs
 logs
 *.log
@@ -131,3 +128,13 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# OS generated files
+.DS_Store
+
+# Database data
+data/
+
+# Build files
+build/
+dist/

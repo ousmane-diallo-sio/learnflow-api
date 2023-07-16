@@ -1,14 +1,27 @@
 import express from "express";
-import studentController from "./controllers/student";
 import mongoose from 'mongoose';
-import envUtils from "./utils/envUtils";
-import { logConfirmation } from "./utils/logUtils";
+import envUtils from "./lib/envService";
+import { logConfirmation } from "./lib/logService";
 import bodyParser from "body-parser";
+import jwt from "jwt-express"
+import cookieParser from "cookie-parser";
+import authController from "./controllers/authController";
+import managerController from "./controllers/managerController";
+import registerController from "./controllers/registerController";
+import studentController from "./controllers/studentController";
+import moderatorController from "./controllers/moderatorController";
+import teacherController from "./controllers/teacherController";
+import cors from "cors";
+import { errorHandler, maxFileSizeErrorHandler, requestLogger, setResContentType } from "./lib/middlewareService";
+import configService from "./lib/configService";
+import documentsController from "./controllers/documentsController";
 
 const app = express()
-app.use(bodyParser.json())
+app.use(cors())
 
-mongoose.connect(`mongodb://${envUtils.MONGO_USER}:${envUtils.MONGO_PASSWORD}@${envUtils.MONGO_HOST}:${envUtils.MONGO_PORT}/${envUtils.MONGO_DB}`)
+const mongoConnectionString = `mongodb://${envUtils.MONGO_USER}:${envUtils.MONGO_PASSWORD}@${envUtils.MONGO_HOST}:${envUtils.MONGO_PORT}/${envUtils.MONGO_DB}`
+
+mongoose.connect(mongoConnectionString)
   .then(() => logConfirmation("Connected to MongoDB"))
   .catch((e) => console.error(e))
 
@@ -17,8 +30,26 @@ app.get('/', (req, res) => {
   res.send("Learn Flow API")
 })
 
+
+app.use(bodyParser.json())
+app.use(requestLogger)
+app.use(cookieParser())
+app.use(jwt.init(configService.JWT_SECRET, { cookies: false, stales: 3600000}))
+
+app.use(setResContentType)
+app.use(maxFileSizeErrorHandler)
+
+app.use('/auth', authController)
+app.use('/register',registerController)
+
+app.use('/managers', managerController)
+app.use('/moderators', moderatorController)
 app.use('/students', studentController)
+app.use('/teachers', teacherController)
+app.use('/documents', documentsController)
+
+app.use(errorHandler)
 
 app.listen(envUtils.PORT, () => {
-  logConfirmation(`Server listening on port ${envUtils.PORT}`)
+  logConfirmation(`Server running at http://${envUtils.HOST}:${envUtils.PORT}/`)
 })

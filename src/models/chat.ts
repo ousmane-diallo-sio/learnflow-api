@@ -1,36 +1,24 @@
 import mongoose from "mongoose";
 import { IStudent } from "./student";
-import { IAddress } from "./address";
 import { IModerator } from "./moderator";
 import { ITeacher } from "./teacher";
 
-export interface IReport extends mongoose.Document {
-  date: Date
-  reason: string
-  detail: string
-  reportType: IAddress
+export interface Chat extends mongoose.Document {
+  message: string
+  datetime: Date
   student: IStudent
   moderator: IModerator
   teacher: ITeacher
 }
 
-export const ReportSchema = new mongoose.Schema({
-  date: {
-    type: Date,
-    required: true,
-  },
-  reason: {
-      type: String,
-      required: true,
-      unique: true,
-  },
-  detail: {
+export const ChatSchema = new mongoose.Schema({
+  message: {
     type: String,
     required: true,
   },
-  reportType: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'ReportType',
+  datetime: {
+    type: Date,
+    required: true,
   },
   student: {
     type: mongoose.Schema.Types.ObjectId,
@@ -46,4 +34,4 @@ export const ReportSchema = new mongoose.Schema({
   },
 })
 
-export const Report = mongoose.model('Report', ReportSchema)
+export const Chat = mongoose.model('Chat', ChatSchema)

@@ -1,7 +1,7 @@
 import { IAddress } from "./address";
 import mongoose, { InferSchemaType } from "mongoose";
 
-export interface IStudent extends mongoose.Document {
+export interface ITeacher extends mongoose.Document {
   firstName: string
   lastName: string
   birthdate: Date
@@ -10,11 +10,12 @@ export interface IStudent extends mongoose.Document {
   role: string
   phoneNumber: string
   profilePictureUrl: string
+  isValidated: boolean
   address: IAddress
-  schoolLevel?: string
+  documents: Array<Document>
 }
 
-export const StudentSchema = new mongoose.Schema({
+export const TeacherSchema = new mongoose.Schema({
   firstName: {
     type: String,
     required: true,
@@ -38,7 +39,7 @@ export const StudentSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    default: "student",
+    default: "teacher",
     required: true,
   },
   phoneNumber: {
@@ -49,14 +50,19 @@ export const StudentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  isValidated: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
   address: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Address',
   },
-  schoolLevel: {
-    type: String
-  }
+  documents: {
+    type: [mongoose.Schema.Types.ObjectId],
+  },
 })
 
-export type Student = InferSchemaType<typeof StudentSchema>;
-export const StudentModel = mongoose.model<IStudent>('Student', StudentSchema)
+export type Teacher = InferSchemaType<typeof TeacherSchema>;
+export const TeacherModel = mongoose.model<ITeacher>('Teacher', TeacherSchema)
