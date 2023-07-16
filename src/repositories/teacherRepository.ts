@@ -6,20 +6,20 @@ import TeacherValidationSchema from '../validators/teacher';
 export class TeacherRepository implements IRepository<ITeacher, ITeacher> {
 
     async getAll(): Promise<ITeacher[]> {
-        return await TeacherModel.find();
+        return await TeacherModel.find().populate("address");
     }
 
     async getOne(id: string): Promise<ITeacher | null> {
-        return await TeacherModel.findById(id);
+        return await TeacherModel.findById(id).populate("address");
     }
 
     async getOneByEmail(email: string): Promise<ITeacher | null> {
-        const teacher = await TeacherModel.findOne({ email });
+        const teacher = await TeacherModel.findOne({ email }).populate("address");
         return teacher;
     }
 
     async getOneByEmailWithPassword(email: string): Promise<ITeacher | null> {
-        const teacher = await TeacherModel.findOne({ email }).select("+password");
+        const teacher = await TeacherModel.findOne({ email }).select("+password").populate("address");
         return teacher;
     }
 
