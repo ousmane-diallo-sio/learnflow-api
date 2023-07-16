@@ -5,8 +5,6 @@ import multer from "multer";
 
 const documentsController = Router()
 
-// upload.single('file')
-
 // Set up file uploads with GridFS storage
 const MAX_FILE_SIZE = 10 * 1024 * 1024 // 10MB
 
