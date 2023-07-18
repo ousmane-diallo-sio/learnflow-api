@@ -2,6 +2,8 @@ import { Router } from "express";
 import teacherRepository from '../repositories/teacherRepository';
 import NotFoundError from "../errors/NotFoundError";
 import ValidationError from "../errors/ValidationError";
+import { TeacherModel } from "../models/teacher";
+import { learnflowResponse } from "../lib/helpersService";
 
 const teacherController = Router()
 
@@ -29,6 +31,33 @@ teacherController.get('/', async (_, res) => {
       })
     }
   }
+})
+
+teacherController.get('/:query', async (req, res) => {
+  const query = req.params.query
+
+  try {
+    const students = await TeacherModel.find({ 
+      $or: [
+        { email: { $regex: query, $options: 'i' } },
+        { lastName: { $regex: query, $options: 'i' } },
+        { firstName: { $regex: query, $options: 'i' } },
+      ],
+     }).populate('address')
+
+    res.status(200).send(
+      learnflowResponse({
+        status: 200,
+        data: students
+      })
+    )
+  } catch(e) {
+    learnflowResponse({
+      status: 500,
+      error: "Nous n'avons pas pu récupérer les étudiants"
+    })
+  }
+
 })
 
 export default teacherController

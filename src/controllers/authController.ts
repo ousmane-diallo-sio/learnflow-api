@@ -88,6 +88,15 @@ authController.post("/login/user", async (req, res) => {
       if (teacher?.password) {
         const passwordComparision = await comparePassword(password, teacher.password)
         if (passwordComparision) {
+          if (!teacher.isValidated) {
+            return res.status(401).send(
+              learnflowResponse({
+                status: 401,
+                error: "Votre compte n'a pas encore été validé par un modérateur"
+              })
+            )
+          }
+
           const token = generateToken({ email: teacher.email, role: teacher.role }, res.jwt)
           return res.status(200).send(
             learnflowResponse({
