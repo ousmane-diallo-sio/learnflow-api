@@ -39,13 +39,11 @@ const StudentValidationSchema = Joi.object({
       'string.pattern.base': 'Le numéro de téléphone doit être un numéro de téléphone français valide',
       'any.required': 'Le numéro de téléphone est obligatoire'
     }),
-  profilePictureUrl: Joi.string().uri().min(5).max(2048).required()
+  profilePicture: Joi.string().base64()
     .messages({
-      'string.empty': 'L\'URL de la photo de profil est obligatoire',
-      'string.uri': 'L\'URL de la photo de profil doit être valide',
-      'string.min': 'L\'URL de la photo de profil doit contenir au moins {#limit} caractères',
-      'string.max': 'L\'URL de la photo de profil ne doit pas dépasser {#limit} caractères',
-      'any.required': 'L\'URL de la photo de profil est obligatoire'
+      'string.empty': 'La photo de profil est obligatoire',
+      'string.uri': 'La photo de profil doit être valide',
+      'any.required': 'La photo de profil est obligatoire'
     }),
   address: AddressValidationSchema.required(),
   schoolLevel: Joi.string().valid("CP", "CE1", "CE2", "CM1", "CM2", "6ème", "5ème", "4ème", "3ème", "2nde", "1ère", "Terminale", "Bac +1", "Bac +2", "Bac +3", "Bac +4", "Bac +5"),
