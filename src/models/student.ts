@@ -9,7 +9,7 @@ export interface IStudent extends mongoose.Document {
   password?: string
   role: string
   phoneNumber: string
-  profilePicture: string
+  profilePicture: Document
   address: IAddress
   schoolLevel?: string
 }
@@ -46,15 +46,20 @@ export const StudentSchema = new mongoose.Schema({
     required: true,
   },
   profilePicture: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Document',
     required: true,
+    autopopulate: true
   },
   address: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Address',
+    required: true,
+    autopopulate: true
   },
   schoolLevel: {
-    type: String
+    type: String,
+    required: true
   }
 })
 

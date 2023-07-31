@@ -9,7 +9,7 @@ export interface ITeacher extends mongoose.Document {
   password?: string
   role: string
   phoneNumber: string
-  profilePicture: string
+  profilePicture: Document
   isValidated: boolean
   address: IAddress
   documents: Array<Document>
@@ -47,7 +47,8 @@ export const TeacherSchema = new mongoose.Schema({
     required: true,
   },
   profilePicture: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Document',
     required: true,
   },
   isValidated: {
@@ -61,6 +62,7 @@ export const TeacherSchema = new mongoose.Schema({
   },
   documents: {
     type: [mongoose.Schema.Types.ObjectId],
+    ref: 'Document'
   },
 })
 

@@ -14,7 +14,6 @@ import teacherController from "./controllers/teacherController";
 import cors from "cors";
 import { errorHandler, requestLogger, setResContentType } from "./lib/middlewareService";
 import configService from "./lib/configService";
-import documentsController from "./controllers/documentsController";
 
 const app = express()
 app.use(cors())
@@ -45,7 +44,6 @@ app.use('/managers', managerController)
 app.use('/moderators', moderatorController)
 app.use('/students', studentController)
 app.use('/teachers', teacherController)
-app.use('/documents', documentsController)
 
 app.use(errorHandler)
 

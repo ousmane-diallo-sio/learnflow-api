@@ -2,6 +2,7 @@ import Joi from "joi"
 import AddressValidationSchema from "./address"
 import { Student } from "../models/student"
 import { PasswordValidationSchema } from "./password"
+import DocumentValidationSchema from "./document"
 
 const today = new Date()
 const fiveYearsAgo = new Date(today.getFullYear() - 5, today.getMonth(), today.getDate())
@@ -39,14 +40,14 @@ const StudentValidationSchema = Joi.object({
       'string.pattern.base': 'Le numéro de téléphone doit être un numéro de téléphone français valide',
       'any.required': 'Le numéro de téléphone est obligatoire'
     }),
-  profilePicture: Joi.string().base64()
-    .messages({
-      'string.empty': 'La photo de profil est obligatoire',
-      'string.uri': 'La photo de profil doit être valide',
-      'any.required': 'La photo de profil est obligatoire'
-    }),
+  profilePicture: DocumentValidationSchema.required(),
   address: AddressValidationSchema.required(),
-  schoolLevel: Joi.string().valid("CP", "CE1", "CE2", "CM1", "CM2", "6ème", "5ème", "4ème", "3ème", "2nde", "1ère", "Terminale", "Bac +1", "Bac +2", "Bac +3", "Bac +4", "Bac +5"),
+  schoolLevel: Joi.string().valid("CP", "CE1", "CE2", "CM1", "CM2", "6ème", "5ème", "4ème", "3ème", "2nde", "1ère", "Terminale", "Bac +1", "Bac +2", "Bac +3", "Bac +4", "Bac +5").required()
+    .messages({
+      'string.base': 'Le niveau scolaire doit être au format texte',
+      'string.empty': 'Le niveau scolaire est obligatoire',
+      'any.required': 'Le niveau scolaire est obligatoire'
+    }),
   password: PasswordValidationSchema.required(),
 })
 

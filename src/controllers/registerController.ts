@@ -10,6 +10,7 @@ import StudentValidationSchema from "../validators/students";
 import TeacherValidationSchema from "../validators/teacher";
 import ModeratorValidationSchema from "../validators/moderator";
 import ManagerValidationSchema from "../validators/manager";
+import { DocumentModel } from "../models/document";
 
 const registerController = Router()
 
@@ -117,9 +118,17 @@ registerController.post('/student', async (req, res) => {
   studentData.password = hashedPassword
  
   try {
+
     const address = await Address.create(studentData.address)
-    const student = await (await StudentModel.create({...studentData, address: address._id})).populate('address')
-    student.password = undefined
+    const profilePicture = await DocumentModel.create(studentData.profilePicture)
+
+    const student = await StudentModel.create({
+      ...studentData,
+      address: address._id,
+      profilePicture: profilePicture._id
+    })
+    await student.populate('address')
+    await student.populate('profilePicture')
 
     res.status(200).send(
       learnflowResponse({

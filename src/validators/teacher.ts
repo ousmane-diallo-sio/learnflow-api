@@ -1,6 +1,7 @@
 import Joi from "joi";
 import AddressValidationSchema from "./address";
 import { PasswordValidationSchema } from "./password";
+import DocumentValidationSchema from "./document";
 
 const today = new Date()
 const fiveYearsAgo = new Date(today.getFullYear() - 5, today.getMonth(), today.getDate())
@@ -38,16 +39,13 @@ const TeacherValidationSchema = Joi.object({
       'string.pattern.base': 'Le numéro de téléphone doit être un numéro de téléphone français valide',
       'any.required': 'Le numéro de téléphone est obligatoire'
     }),
-  profilePicture: Joi.string().base64()
-  .messages({
-    'string.empty': 'La photo de profil est obligatoire',
-    'string.uri': 'La photo de profil doit être valide',
-    'any.required': 'La photo de profil est obligatoire'
-  }),
+  profilePicture: DocumentValidationSchema.required(),
   address: AddressValidationSchema.required(),
-  documents: Joi.array().items(Joi.string().base64()).required()
+  documents: Joi.array().items(DocumentValidationSchema.required()).required()
     .messages({
-      'any.required': 'Vous devez ajouter des documents à votre inscription',
+      'array.base': 'Vous devez envoyer une liste de documents de vérification',
+      'array.empty': 'Les documents de vérification sont obligatoires',
+      'any.required': 'Les documents de vérification sont obligatoires'
     }),
   password: PasswordValidationSchema.required()
 })
