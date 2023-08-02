@@ -127,6 +127,7 @@ registerController.post('/student', async (req, res) => {
       address: address._id,
       profilePicture: profilePicture._id
     })
+    student.password = undefined
     await student.populate('address')
     await student.populate('profilePicture')
 
@@ -177,8 +178,19 @@ registerController.post('/teacher', async (req, res) => {
   
   try {
     const address = await Address.create(teacherData.address)
-    const teacher = await (await TeacherModel.create({...teacherData, address: address._id})).populate('address')
+    const profilePicture = await DocumentModel.create(teacherData.profilePicture)
+    const documents = await Promise.all(teacherData.documents.map(async (document) => {
+      return await DocumentModel.create(document)
+    }))
+    const teacher = await TeacherModel.create({
+      ...teacherData, 
+      address: address._id,
+      profilePicture: profilePicture._id,
+      documents: documents.map(document => document._id)
+    })
     teacher.password = undefined
+    await teacher.populate('profilePicture')
+    await teacher.populate('address')
     
     res.status(201).send(
       learnflowResponse({

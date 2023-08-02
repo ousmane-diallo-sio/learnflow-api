@@ -7,7 +7,7 @@ export interface IStudent extends mongoose.Document {
   birthdate: Date
   email: string
   password?: string
-  role: string
+  role: 'student'
   phoneNumber: string
   profilePicture: Document
   address: IAddress
