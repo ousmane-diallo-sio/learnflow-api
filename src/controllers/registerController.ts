@@ -10,6 +10,7 @@ import StudentValidationSchema from "../validators/students";
 import TeacherValidationSchema from "../validators/teacher";
 import ModeratorValidationSchema from "../validators/moderator";
 import ManagerValidationSchema from "../validators/manager";
+import { DocumentModel } from "../models/document";
 
 const registerController = Router()
 
@@ -117,9 +118,18 @@ registerController.post('/student', async (req, res) => {
   studentData.password = hashedPassword
  
   try {
+
     const address = await Address.create(studentData.address)
-    const student = await (await StudentModel.create({...studentData, address: address._id})).populate('address')
+    const profilePicture = await DocumentModel.create(studentData.profilePicture)
+
+    const student = await StudentModel.create({
+      ...studentData,
+      address: address._id,
+      profilePicture: profilePicture._id
+    })
     student.password = undefined
+    await student.populate('address')
+    await student.populate('profilePicture')
 
     res.status(200).send(
       learnflowResponse({
@@ -168,8 +178,19 @@ registerController.post('/teacher', async (req, res) => {
   
   try {
     const address = await Address.create(teacherData.address)
-    const teacher = await (await TeacherModel.create({...teacherData, address: address._id})).populate('address')
+    const profilePicture = await DocumentModel.create(teacherData.profilePicture)
+    const documents = await Promise.all(teacherData.documents.map(async (document) => {
+      return await DocumentModel.create(document)
+    }))
+    const teacher = await TeacherModel.create({
+      ...teacherData, 
+      address: address._id,
+      profilePicture: profilePicture._id,
+      documents: documents.map(document => document._id)
+    })
     teacher.password = undefined
+    await teacher.populate('profilePicture')
+    await teacher.populate('address')
     
     res.status(201).send(
       learnflowResponse({

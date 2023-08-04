@@ -53,16 +53,3 @@ export const errorHandler = (err: Error, req: Request, res: Response, next: Next
     })
   )
 }
-
-export const maxFileSizeErrorHandler = (err: unknown, req: Request, res: Response, next: NextFunction) => {
-  if (err) {
-    res.status(413).send(
-      learnflowResponse({
-        status: 413,
-        error: "Ce fichier est trop volumineux (10MB maximum)",
-      })
-    )
-    return
-  }
-  next()
-}

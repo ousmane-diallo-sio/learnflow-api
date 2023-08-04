@@ -12,9 +12,8 @@ import studentController from "./controllers/studentController";
 import moderatorController from "./controllers/moderatorController";
 import teacherController from "./controllers/teacherController";
 import cors from "cors";
-import { errorHandler, maxFileSizeErrorHandler, requestLogger, setResContentType } from "./lib/middlewareService";
+import { errorHandler, requestLogger, setResContentType } from "./lib/middlewareService";
 import configService from "./lib/configService";
-import documentsController from "./controllers/documentsController";
 
 const app = express()
 app.use(cors())
@@ -31,13 +30,12 @@ app.get('/', (req, res) => {
 })
 
 
-app.use(bodyParser.json())
+app.use(bodyParser.json({ limit: '50mb' }))
 app.use(requestLogger)
 app.use(cookieParser())
 app.use(jwt.init(configService.JWT_SECRET, { cookies: false, stales: 3600000}))
 
 app.use(setResContentType)
-app.use(maxFileSizeErrorHandler)
 
 app.use('/auth', authController)
 app.use('/register',registerController)
@@ -46,7 +44,6 @@ app.use('/managers', managerController)
 app.use('/moderators', moderatorController)
 app.use('/students', studentController)
 app.use('/teachers', teacherController)
-app.use('/documents', documentsController)
 
 app.use(errorHandler)
 
