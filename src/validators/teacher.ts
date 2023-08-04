@@ -2,6 +2,7 @@ import Joi from "joi";
 import AddressValidationSchema from "./address";
 import { PasswordValidationSchema } from "./password";
 import DocumentValidationSchema from "./document";
+import SchoolSubjectValidationSchema, { SchoolSubjectTeachedValidationSchema } from "./schoolSubject";
 
 const today = new Date()
 const fiveYearsAgo = new Date(today.getFullYear() - 5, today.getMonth(), today.getDate())
@@ -41,12 +42,19 @@ const TeacherValidationSchema = Joi.object({
     }),
   profilePicture: DocumentValidationSchema.required(),
   address: AddressValidationSchema.required(),
-  documents: Joi.array().items(DocumentValidationSchema.required()).required()
+  documents: Joi.array().min(1).items(DocumentValidationSchema.required()).required()
     .messages({
       'array.base': 'Vous devez envoyer une liste de documents de vérification',
       'array.empty': 'Les documents de vérification sont obligatoires',
+      'array.min': 'Vous devez envoyer au moins {#limit} document de vérification',
       'any.required': 'Les documents de vérification sont obligatoires'
     }),
+  schoolSubjectsTeached: Joi.array().min(1).items(SchoolSubjectTeachedValidationSchema.required()).required().messages({
+    'array.required': 'Vous devez renseigner les matières que vous enseignez',
+    'array.base': 'Vous devez renseigner les matières que vous enseignez',
+    'array.empty': 'Vous devez renseigner les matières que vous enseignez',
+    'array.min': 'Vous devez renseigner au moins {#limit} matière que vous enseignez',
+  }),
   password: PasswordValidationSchema.required()
 })
 

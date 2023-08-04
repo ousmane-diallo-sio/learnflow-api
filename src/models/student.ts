@@ -11,7 +11,7 @@ export interface IStudent extends mongoose.Document {
   phoneNumber: string
   profilePicture: Document
   address: IAddress
-  schoolLevel?: string
+  schoolLevel: string
 }
 
 export const StudentSchema = new mongoose.Schema({

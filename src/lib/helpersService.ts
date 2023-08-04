@@ -4,6 +4,8 @@ import { StudentModel } from "../models/student";
 import { TeacherModel } from "../models/teacher";
 import { ModeratorModel } from "../models/moderator";
 import { ManagerModel } from "../models/manager";
+import { SchoolSubject, ISchoolSubject, schoolSubjectNames } from "../models/schoolSubject";
+import { logConfirmation } from "./logService";
 
 export const hashPassword = async (plaintextPassword: string) => {
   const hash = await bcrypt.hash(plaintextPassword, 10);
@@ -33,4 +35,25 @@ export const isEmailAvailable = async (email: string) => {
   if (nbDuplicates > 0) return false
 
   return true
+}
+
+export const updateSchoolSubjects = async () => {
+
+  try {
+    const existingSubjects = await SchoolSubject.find({ name: { $in: schoolSubjectNames } })
+    const existingSubjectNames = existingSubjects.map((subject) => subject.name)
+
+    const missingSubjects = schoolSubjectNames.filter((subject) => !existingSubjectNames.includes(subject))
+    if (missingSubjects.length > 0) {
+      const newSubjects = missingSubjects.map((subject) => ({ name: subject }))
+      await SchoolSubject.insertMany(newSubjects)
+      logConfirmation(`Added the following subjects to the collection: ${existingSubjectNames}`)
+      return
+    }
+
+    logConfirmation('All school subjects are up-to-date')
+    
+  } catch (error) {
+    console.error('Error adding missing subjects :', error)
+  }
 }

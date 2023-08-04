@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { Address } from "../models/address";
 import { IStudent, StudentModel } from "../models/student";
-import { ITeacher, TeacherModel } from "../models/teacher";
+import { ISchoolSubjectTeached, ITeacher, TeacherModel } from "../models/teacher";
 import { hashPassword, isEmailAvailable, learnflowResponse } from "../lib/helpersService";
 import { IManager, ManagerModel } from "../models/manager";
 import { IModerator, ModeratorModel } from "../models/moderator";
@@ -11,6 +11,8 @@ import TeacherValidationSchema from "../validators/teacher";
 import ModeratorValidationSchema from "../validators/moderator";
 import ManagerValidationSchema from "../validators/manager";
 import { DocumentModel } from "../models/document";
+import { ISchoolSubject, SchoolSubject } from "../models/schoolSubject";
+import { ObjectId } from "mongoose";
 
 const registerController = Router()
 
@@ -173,6 +175,28 @@ registerController.post('/teacher', async (req, res) => {
     return
   }
 
+  const validSchoolSubjectsTeached = await Promise.all(
+    teacherData.schoolSubjectsTeached.map(async (schoolSubjectTeached) => {
+      const schoolSubject = await SchoolSubject.findOne({ name: schoolSubjectTeached.schoolSubject.name })
+      if (schoolSubject) {
+        return {
+          nbYearsExp: schoolSubjectTeached.nbYearsExp,
+          schoolSubject: schoolSubject
+        }
+      }
+    })
+  ).then(schoolSubjects => schoolSubjects.filter(schoolSubject => schoolSubject)) as ISchoolSubjectTeached[]
+
+  if (validSchoolSubjectsTeached.length === 0) {
+    res.status(400).send(
+      learnflowResponse({
+        status: 400,
+        error: 'Learn Flow ne propose aucune des matières envoyées',
+      })
+    )
+    return
+  }
+
   const hashedPassword = await hashPassword(teacherData.password as string)
   teacherData.password = hashedPassword
   
@@ -186,7 +210,11 @@ registerController.post('/teacher', async (req, res) => {
       ...teacherData, 
       address: address._id,
       profilePicture: profilePicture._id,
-      documents: documents.map(document => document._id)
+      documents: documents.map(document => document._id),
+      schoolSubjectsTeached: validSchoolSubjectsTeached.map(schoolSubjectTeached => ({
+        schoolSubject: schoolSubjectTeached.schoolSubject._id,
+        nbYearsExp: schoolSubjectTeached.nbYearsExp
+      }))
     })
     teacher.password = undefined
     await teacher.populate('profilePicture')
