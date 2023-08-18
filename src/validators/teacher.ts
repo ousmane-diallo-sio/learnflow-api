@@ -49,12 +49,13 @@ const TeacherValidationSchema = Joi.object({
       'array.min': 'Vous devez envoyer au moins {#limit} document de vérification',
       'any.required': 'Les documents de vérification sont obligatoires'
     }),
-  schoolSubjectsTeached: Joi.array().min(1).items(SchoolSubjectTeachedValidationSchema.required()).required().messages({
-    'array.required': 'Vous devez renseigner les matières que vous enseignez',
-    'array.base': 'Vous devez renseigner les matières que vous enseignez',
-    'array.empty': 'Vous devez renseigner les matières que vous enseignez',
-    'array.min': 'Vous devez renseigner au moins {#limit} matière que vous enseignez',
-  }),
+  schoolSubjectsTeached: Joi.array().min(1).items(SchoolSubjectTeachedValidationSchema.required()).required()
+    .messages({
+      'array.required': 'Vous devez renseigner les matières que vous enseignez',
+      'array.base': 'Vous devez renseigner les matières que vous enseignez',
+      'array.empty': 'Vous devez renseigner les matières que vous enseignez',
+      'array.min': 'Vous devez renseigner au moins {#limit} matière que vous enseignez'
+    }),
   password: PasswordValidationSchema.required()
 })
 

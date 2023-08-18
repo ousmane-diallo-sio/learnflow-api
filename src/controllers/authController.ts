@@ -69,6 +69,9 @@ authController.post("/login/user", async (req, res) => {
 
   try {
     const student = await studentRepository.getOneByEmailWithPassword(email)
+    await student?.populate('profilePicture')
+    await student?.populate('address')
+    
     if (student?.password) {
       const passwordComparision = await comparePassword(password, student.password)
       if (passwordComparision) {
