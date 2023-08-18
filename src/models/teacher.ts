@@ -1,5 +1,6 @@
 import { IAddress } from "./address";
 import mongoose, { InferSchemaType } from "mongoose";
+import { ISchoolSubject } from "./schoolSubject";
 
 export interface ITeacher extends mongoose.Document {
   firstName: string
@@ -13,6 +14,12 @@ export interface ITeacher extends mongoose.Document {
   isValidated: boolean
   address: IAddress
   documents: Array<Document>
+  schoolSubjectsTeached: Array<ISchoolSubjectTeached>
+}
+
+export interface ISchoolSubjectTeached {
+  nbYearsExp: number
+  schoolSubject: ISchoolSubject
 }
 
 export const TeacherSchema = new mongoose.Schema({
@@ -66,6 +73,17 @@ export const TeacherSchema = new mongoose.Schema({
     ref: 'Document',
     required: true,
   },
+  schoolSubjectsTeached: [{
+    nbYearsExp: {
+      type: Number,
+      required: true
+    },
+    schoolSubject: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'SchoolSubject',
+      required: true
+    },
+  }]
 })
 
 export type Teacher = InferSchemaType<typeof TeacherSchema>;

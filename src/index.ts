@@ -14,6 +14,8 @@ import teacherController from "./controllers/teacherController";
 import cors from "cors";
 import { errorHandler, requestLogger, setResContentType } from "./lib/middlewareService";
 import configService from "./lib/configService";
+import { updateSchoolSubjects } from "./lib/helpersService";
+import schoolSubjectController from "./controllers/schoolSubjectController";
 
 const app = express()
 app.use(cors())
@@ -21,7 +23,10 @@ app.use(cors())
 const mongoConnectionString = `mongodb://${envUtils.MONGO_USER}:${envUtils.MONGO_PASSWORD}@${envUtils.MONGO_HOST}:${envUtils.MONGO_PORT}/${envUtils.MONGO_DB}`
 
 mongoose.connect(mongoConnectionString)
-  .then(() => logConfirmation("Connected to MongoDB"))
+  .then(() => {
+    logConfirmation("Connected to MongoDB")
+    updateSchoolSubjects()
+    })
   .catch((e) => console.error(e))
 
 app.get('/', (req, res) => {
@@ -44,6 +49,7 @@ app.use('/managers', managerController)
 app.use('/moderators', moderatorController)
 app.use('/students', studentController)
 app.use('/teachers', teacherController)
+app.use('/school-subjects', schoolSubjectController)
 
 app.use(errorHandler)
 
