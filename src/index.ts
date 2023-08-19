@@ -16,6 +16,7 @@ import { errorHandler, requestLogger, setResContentType } from "./lib/middleware
 import configService from "./lib/configService";
 import { updateSchoolSubjects } from "./lib/helpersService";
 import schoolSubjectController from "./controllers/schoolSubjectController";
+import userController from "./controllers/userController";
 
 const app = express()
 app.use(cors())
@@ -47,6 +48,7 @@ app.use('/register',registerController)
 
 app.use('/managers', managerController)
 app.use('/moderators', moderatorController)
+app.use('/user', userController)
 app.use('/students', studentController)
 app.use('/teachers', teacherController)
 app.use('/school-subjects', schoolSubjectController)

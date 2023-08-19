@@ -1,6 +1,7 @@
 import { IAddress } from "./address";
 import mongoose, { InferSchemaType } from "mongoose";
 import { ISchoolSubject } from "./schoolSubject";
+import { Document } from "./document";
 
 export interface ITeacher extends mongoose.Document {
   firstName: string
