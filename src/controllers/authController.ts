@@ -4,7 +4,7 @@ import managerRepository from "../repositories/managerRepository";
 import moderatorRepository from "../repositories/moderatorRepository";
 import teacherRepository from "../repositories/teacherRepository";
 import { comparePassword, learnflowResponse } from '../lib/helpersService';
-import jwt from 'jwt-express'
+import jwtExpress, { JWT } from 'jwt-express'
 import { generateToken } from "../lib/authService";
 import NotFoundError from "../errors/NotFoundError";
 import ValidationError from "../errors/ValidationError";
@@ -65,7 +65,16 @@ authController.post("/login/moderator", async (req, res) => {
 })
 
 authController.post("/login/user", async (req, res) => {
-  const { email, password }:  { email: string, password: string } = req.body
+  const { email, password }:  { email?: string, password?: string } = req.body
+
+  if (!email || !password) {
+    return res.status(400).send(
+      learnflowResponse({
+        status: 400,
+        error: "Informations de connexion invalides"
+      })
+    )
+  }
 
   try {
     const student = await studentRepository.getOneByEmailWithPassword(email)
@@ -125,9 +134,55 @@ authController.post("/login/user", async (req, res) => {
     }
 })
 
+authController.post("/autologin/user", jwtExpress.active(), async (req, res) => {
+  const jwt = req.jwt
+  if (!jwt) {
+    return res.status(401).send(
+      learnflowResponse({
+        status: 401,
+        error: "Vous n'êtes pas connecté"
+      })
+    )
+  }
+  try {
+    const student = await studentRepository.getOneByEmail(jwt.payload.email)
+    if (student) {
+      await student.populate('profilePicture')
+      await student.populate('address')
+      return res.status(200).send(
+        learnflowResponse({
+          status: 200,
+          data: student
+        })
+      )
+    } else {
+      const teacher = await teacherRepository.getOneByEmail(jwt.payload.email)
+      if (teacher) {
+        await teacher.populate('profilePicture')
+        await teacher.populate('address')
+        return res.status(200).send(
+          learnflowResponse({
+            status: 200,
+            data: teacher
+          })
+        )
+      }
+    }
+    return res.status(404).send(
+      learnflowResponse({
+        status: 404,
+        error: "Utilisateur introuvable"
+      })
+    )
+  } catch(e) {
+    console.error(e)
+    res.status(500).send(JSON.stringify("An error occured"))
+  }
+})
+
 authController.post("/logout", async (_, res) => {
   try {
-    jwt.clear()
+    jwtExpress.clear()
     return res.status(200).send(JSON.stringify("Successfully logged out"))
   } catch(e) {
  if (e instanceof NotFoundError) {

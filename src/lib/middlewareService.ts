@@ -15,7 +15,7 @@ export const generateAuth = (allowedRoles: string[]) => {
 }
 
 export const requestLogger = (req: Request, res: Response, next: NextFunction) => {
-  console.log(`${req.method} ${req.originalUrl}`)
+  console.log(`${req.method} ${req.originalUrl} --> ${res.statusCode}`)
   next()
 }
 
