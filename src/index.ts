@@ -48,7 +48,7 @@ app.use('/register',registerController)
 
 app.use('/managers', managerController)
 app.use('/moderators', moderatorController)
-app.use('/user', userController)
+app.use('/users', userController)
 app.use('/students', studentController)
 app.use('/teachers', teacherController)
 app.use('/school-subjects', schoolSubjectController)
