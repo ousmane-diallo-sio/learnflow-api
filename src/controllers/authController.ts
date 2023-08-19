@@ -65,7 +65,7 @@ authController.post("/login/moderator", async (req, res) => {
 })
 
 authController.post("/login/user", async (req, res) => {
-  const { email, password }:  { email?: string, password?: string } = req.body
+  const { email, password }:  { email: string, password: string } = req.body
 
   if (!email || !password) {
     return res.status(400).send(
