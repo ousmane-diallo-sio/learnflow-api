@@ -37,18 +37,18 @@ teacherController.get('/:query', async (req, res) => {
   const query = req.params.query
 
   try {
-    const students = await TeacherModel.find({ 
+    const teachers = await TeacherModel.find({ 
       $or: [
         { email: { $regex: query, $options: 'i' } },
         { lastName: { $regex: query, $options: 'i' } },
         { firstName: { $regex: query, $options: 'i' } },
       ],
-     }).populate('address')
+     }).populate('address').populate('profilePicture')
 
     res.status(200).send(
       learnflowResponse({
         status: 200,
-        data: students
+        data: teacherRepository.formatAll(teachers)
       })
     )
   } catch(e) {

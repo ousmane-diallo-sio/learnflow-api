@@ -88,6 +88,35 @@ export class TeacherRepository implements IRepository<IUserTeacher, ITeacher> {
         await teacher.save()
         return null
     }
+
+    format(object: ITeacher): IUserTeacher {
+        return {
+            address: object.address,
+            birthdate: object.birthdate,
+            email: object.email,
+            firstName: object.firstName,
+            lastName: object.lastName,
+            phoneNumber: object.phoneNumber,
+            profilePicture: object.profilePicture,
+            teacher: object
+        } as IUserTeacher
+    }
+
+    formatAll(objects: ITeacher[]): IUserTeacher[] {
+        const users = objects.map((teacher) => (
+            {
+                address: teacher.address,
+                birthdate: teacher.birthdate,
+                email: teacher.email,
+                firstName: teacher.firstName,
+                lastName: teacher.lastName,
+                phoneNumber: teacher.phoneNumber,
+                profilePicture: teacher.profilePicture,
+                teacher: teacher
+            } as IUserTeacher
+        ))
+        return users
+    }
 }
 
 export default new TeacherRepository()
