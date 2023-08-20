@@ -77,28 +77,28 @@ authController.post("/login/user", async (req, res) => {
   }
 
   try {
-    const student = await studentRepository.getOneByEmailWithPassword(email)
+    const userStudent = await studentRepository.getOneByEmailWithPassword(email)
     
-    if (student?.student?.password) {
-      const passwordComparision = await comparePassword(password, student.student.password)
+    if (userStudent?.student?.password) {
+      const passwordComparision = await comparePassword(password, userStudent.student.password)
       if (passwordComparision) {
-        const token = generateToken({ email: student.email, role: student.student.role }, res.jwt)
-        student.student.password = undefined
+        const token = generateToken({ email: userStudent.email, role: userStudent.student.role }, res.jwt)
+        userStudent.student.password = undefined
 
         return res.status(200).send(
           learnflowResponse({
             status: 200,
             jwt: token,
-            data: student
+            data: userStudent
           })
         )
       }
     } else {
-      const teacher = await teacherRepository.getOneByEmailWithPassword(email)
-      if (teacher?.teacher?.password) {
-        const passwordComparision = await comparePassword(password, teacher.teacher.password)
+      const userTeacher = await teacherRepository.getOneByEmailWithPassword(email)
+      if (userTeacher?.teacher?.password) {
+        const passwordComparision = await comparePassword(password, userTeacher.teacher.password)
         if (passwordComparision) {
-          if (!teacher.teacher.isValidated) {
+          if (!userTeacher.teacher.isValidated) {
             return res.status(401).send(
               learnflowResponse({
                 status: 401,
@@ -107,12 +107,12 @@ authController.post("/login/user", async (req, res) => {
             )
           }
 
-          const token = generateToken({ email: teacher.email, role: teacher.teacher.role }, res.jwt)
+          const token = generateToken({ email: userTeacher.email, role: userTeacher.teacher.role }, res.jwt)
           return res.status(200).send(
             learnflowResponse({
               status: 200,
               jwt: token,
-              data: teacher
+              data: userTeacher
             })
           )
         }
