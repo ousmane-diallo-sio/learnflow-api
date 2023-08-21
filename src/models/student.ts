@@ -1,5 +1,6 @@
 import { IAddress } from "./address";
 import mongoose, { InferSchemaType } from "mongoose";
+import { Document } from "./document";
 
 export interface IStudent extends mongoose.Document {
   firstName: string
