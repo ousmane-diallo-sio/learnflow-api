@@ -5,6 +5,7 @@ export interface IDocument extends mongoose.Document {
   desc?: string
   base64: string
   documentType: 'image' | 'pdf'
+  _id: string
 }
 
 export const DocumentSchema = new mongoose.Schema({

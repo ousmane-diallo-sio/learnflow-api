@@ -89,21 +89,21 @@ export class TeacherRepository implements IRepository<IUserTeacher, ITeacher> {
         return null
     }
 
-    format(object: ITeacher): IUserTeacher {
+    format(teacher: ITeacher): IUserTeacher {
         return {
-            address: object.address,
-            birthdate: object.birthdate,
-            email: object.email,
-            firstName: object.firstName,
-            lastName: object.lastName,
-            phoneNumber: object.phoneNumber,
-            profilePicture: object.profilePicture,
-            teacher: object
+            address: teacher.address,
+            birthdate: teacher.birthdate,
+            email: teacher.email,
+            firstName: teacher.firstName,
+            lastName: teacher.lastName,
+            phoneNumber: teacher.phoneNumber,
+            profilePicture: teacher.profilePicture,
+            teacher: teacher
         } as IUserTeacher
     }
 
-    formatAll(objects: ITeacher[]): IUserTeacher[] {
-        const users = objects.map((teacher) => (
+    formatAll(teachers: ITeacher[]): IUserTeacher[] {
+        const users = teachers.map((teacher) => (
             {
                 address: teacher.address,
                 birthdate: teacher.birthdate,
@@ -116,6 +116,19 @@ export class TeacherRepository implements IRepository<IUserTeacher, ITeacher> {
             } as IUserTeacher
         ))
         return users
+    }
+
+    async updateOne(id: string, studentData: ITeacher): Promise<IUserTeacher | ValidationErrorItem[]> {
+        const validationResult = TeacherValidationSchema.validate(studentData)
+        if (validationResult.error){
+          return validationResult.error.details
+        }
+
+        const student = await TeacherModel.findOneAndUpdate({ _id: id }, studentData)
+            .populate("address")
+            .populate("profilePicture") as ITeacher
+
+        return this.format(student)
     }
 }
 
