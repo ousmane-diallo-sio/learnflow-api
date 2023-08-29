@@ -42,6 +42,13 @@ teacherController.get('/:query', async (req, res) => {
         { email: { $regex: query, $options: 'i' } },
         { lastName: { $regex: query, $options: 'i' } },
         { firstName: { $regex: query, $options: 'i' } },
+        { 
+          schoolSubjectsTeached: {
+            $elemMatch: {
+              'schoolSubject.name': { $regex: query, $options: 'i' }
+            }
+          }
+        },
       ],
      }).populate('address').populate('profilePicture')
 

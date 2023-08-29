@@ -5,4 +5,5 @@ export default interface IRepository<T, CREATE_DTO_T> {
     getOne(id: string): Promise<T | null>;
     deleteOne(id: string): Promise<boolean>;
     createOne(object: CREATE_DTO_T): Promise<null | ValidationErrorItem[]>;
+    updateOne?(id: string, object: any): Promise<T | ValidationErrorItem[]>;
 }

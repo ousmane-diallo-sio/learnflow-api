@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins */
 import bcrypt from "bcryptjs";
 import { LearnflowResponse } from "../interfaces/types";
 import { StudentModel } from "../models/student";
@@ -15,6 +16,24 @@ export const hashPassword = async (plaintextPassword: string) => {
 export const comparePassword = async (plaintextPassword: string, hash: string) => {
   const passwordComparision = await bcrypt.compare(plaintextPassword, hash);
   return passwordComparision;
+}
+
+export const areObjectsEqual = (o1: any, o2: any) => {
+  for(const p in o1){
+      if(o1.hasOwnProperty(p)){
+          if(o1[p] !== o2[p]){
+              return false;
+          }
+      }
+  }
+  for(const p in o2){
+      if(o2.hasOwnProperty(p)){
+          if(o1[p] !== o2[p]){
+              return false;
+          }
+      }
+  }
+  return true;
 }
 
 export const learnflowResponse = (response : LearnflowResponse) => {

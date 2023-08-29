@@ -1,6 +1,6 @@
 import { IAddress } from "./address";
 import mongoose, { InferSchemaType } from "mongoose";
-import { Document } from "./document";
+import { Document, IDocument } from "./document";
 
 export interface IStudent extends mongoose.Document {
   firstName: string
@@ -10,7 +10,7 @@ export interface IStudent extends mongoose.Document {
   password?: string
   role: 'student'
   phoneNumber: string
-  profilePicture: Document
+  profilePicture: IDocument
   address: IAddress
   schoolLevel: string
 }
