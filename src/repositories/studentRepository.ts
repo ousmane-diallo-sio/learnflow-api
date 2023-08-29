@@ -113,10 +113,10 @@ export class StudentRepository implements IRepository<IUserStudent, IStudent> {
         const currentAddress = Address.findById(student.address)
         const currentProfilePicture = DocumentModel.findById(student.profilePicture)
 
-        if (areObjectsEqual(newAddress, currentAddress)) {
+        if (!areObjectsEqual(newAddress, currentAddress)) {
             await Address.findByIdAndUpdate(student.address, newAddress)
         }
-        if (areObjectsEqual(newProfilePicture, currentProfilePicture)) {
+        if (!areObjectsEqual(newProfilePicture, currentProfilePicture)) {
             await DocumentModel.findByIdAndUpdate(student.profilePicture, newProfilePicture)
         }
         

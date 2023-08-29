@@ -177,7 +177,12 @@ authController.post("/autologin/user", jwtExpress.active(), async (req, res) => 
 authController.post("/logout", async (_, res) => {
   try {
     jwtExpress.clear()
-    return res.status(200).send(JSON.stringify("Successfully logged out"))
+    return res.status(200).send(
+      learnflowResponse({
+        status: 200,
+        data: "Successfully logged out"
+      })
+    )
   } catch(e) {
  if (e instanceof NotFoundError) {
       res.status(404).send({
